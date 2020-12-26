@@ -7,8 +7,8 @@ import { FcGoogle } from 'react-icons/fc';
 export const LoginPage = ({ startLogin }) => (
     <div className="box-layout">
         <div className="box-layout__box">
-            <h1 className="box-layout__title">Boilerplate</h1>
-            <p>Subtitle.</p>
+            <h1 className="box-layout__title">React Blog</h1>
+            <p>Franco's React journey.</p>
             <div className="button-group">
                 <button id="googleLogin" className="button button--login" onClick={ startLogin }>
                     <FcGoogle />
