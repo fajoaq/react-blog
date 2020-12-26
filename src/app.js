@@ -7,6 +7,7 @@ import configureStore from './store/configureStore';
 import { firebase } from './firebase/firebase';
 
 import { login, logout } from './actions/auth';
+import { startSetPosts } from './actions/posts';
 import LoadingPage from './components/LoadingPage';
 
 import 'normalize.css/normalize.css';
@@ -34,18 +35,34 @@ firebase.auth().onAuthStateChanged((user) => {
   if(user) {
     store.dispatch(login(user.uid));
     renderApp();
+
+  } else {
+    store.dispatch(logout());
+    renderApp();
+    history.push('/');
+  }
+  store.dispatch(startSetPosts()).then(() => {
+    renderApp();
     if (history.location.pathname === '/') {
       history.push('/dashboard');
     }
-    /* store.dispatch(startSetExpenses()).then(() => {
+  });
+
+/*   if(user) {
+    store.dispatch(login(user.uid));
+    renderApp();
+    if (history.location.pathname === '/') {
+      history.push('/dashboard');
+    }
+    store.dispatch(startSetExpenses()).then(() => {
       renderApp();
       if (history.location.pathname === '/') {
         history.push('/dashboard');
       }
-    }); */
+    });
   } else {
     store.dispatch(logout());
     renderApp();
-/*     history.push('/'); */
-  }
+    history.push('/');
+  } */
 });

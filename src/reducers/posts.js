@@ -10,6 +10,8 @@ export default (state = [], action) => {
             return state.filter((post) => {
                 return post.id === action.post.id;
             });
+        case 'SET_POSTS':
+            return action.userPosts;
         default:
             return state;
     };
