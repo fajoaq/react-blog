@@ -1,0 +1,39 @@
+.button-group {
+    display: flex;
+    justify-content: space-around;
+}
+
+.button {
+    display: inline-block;
+    background: $blue;
+    color: white;
+    border: none;
+    padding: $s-size;
+    font-size: $font-size-large;
+    font-weight: 300;
+    line-height: 1;
+    text-decoration: none;
+}
+
+.button--link {
+    background: none;
+}
+
+.button--secondary {
+    background: #888888;
+}
+
+.button--login {
+    background: darken($blue, 20%);
+    border-radius: 49%;
+    font-size: $font-size-xtra;
+    line-height: .8;
+}
+.button--login > * {
+    pointer-events: none;
+}
+
+.button--flex-end {
+    display: flex;
+    justify-content: flex-end;
+}
