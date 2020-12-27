@@ -10,12 +10,12 @@ export class PostPage extends React.Component {
         <div>This is a post</div>
           <div>
             {
-              this.props.post.postTitle
+              (this.props.post) && <h3>{ this.props.post.postTitle }</h3>
             }
           </div>
           <div>
           {
-            this.props.post.id
+            (this.props.post) && <h3>{ this.props.post.id }</h3>
           }
         </div>
       </div>
