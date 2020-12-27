@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { startRemovePost } from '../actions/posts';
 
 import AddPost from './AddPost';
 import PostList from './PostList';
@@ -19,4 +20,8 @@ const mapStateToProps = (state, props) => ({
   post: state.postList.find((post) => post.id === props.match.params.id)
 });
 
-export default connect(mapStateToProps)(PostPage);
+const mapDispatchToProps = (dispatch) => ({
+  startRemovePost: (id) => dispatch(startRemovePost(id))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostPage);

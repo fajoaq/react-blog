@@ -6,11 +6,11 @@ import { startAddPost } from '../actions/posts';
 
 export class AddPost extends React.Component {
     onAddPost = () => {
-        const newPost = {
-            postTitle: `${uuidv4()}`
+        const post = {
+            postTitle: "new post"
         };
     
-        this.props.startAddPost(newPost);
+        this.props.startAddPost(post);
     };
 
     render() {

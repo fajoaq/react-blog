@@ -22,6 +22,22 @@ export const addPost = (post) => ({
     post
 });
 
+//START REMOVE_EXPENSE
+export const startRemovePost = ({ id } = {}) => {
+  return (dispatch, getState) => {
+    const uid = getState().auth.uid;
+    return database.ref(`users/${uid}/posts/${id}`).remove().then(() => {
+      dispatch(removePost({ id }));
+    });
+  };
+};
+
+// REMOVE_EXPENSE
+export const removePost = ({ id } = {}) => ({
+  type: 'REMOVE_POST',
+  id
+});
+
 //START SET_POSTS
 export const startSetPosts = () => {
     return (dispatch, getState) => {
@@ -29,10 +45,12 @@ export const startSetPosts = () => {
        return database.ref(`users/`).once('value').then((snapshot) => {
         const userPosts = [];
         snapshot.forEach((user) => {
-          user.forEach((post) => {
-              userPosts.push({
-                id: post.key,
-                ...post.val()
+          user.forEach((posts) => {
+            posts.forEach((post) => {
+                userPosts.push({
+                  id: post.key,
+                  ...post.val()
+              });
             });
           });
         });
@@ -42,9 +60,9 @@ export const startSetPosts = () => {
   };
   
   // SET_POSTS
-  export const setPosts = (userPosts) => ({
+  export const setPosts = (posts) => ({
     type: 'SET_POSTS',
-    userPosts
+    posts
   });
   
   

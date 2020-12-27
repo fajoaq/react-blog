@@ -2,6 +2,7 @@
 export default (state = [], action) => {
     switch(action.type) {
         case 'ADD_POST':
+            console.log(action.post);
             return [
                 ...state,
                 action.post
@@ -11,7 +12,8 @@ export default (state = [], action) => {
                 return post.id === action.post.id;
             });
         case 'SET_POSTS':
-            return action.userPosts;
+            console.log(action.posts);
+            return action.posts;
         default:
             return state;
     };
