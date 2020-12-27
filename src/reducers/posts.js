@@ -12,7 +12,6 @@ export default (state = [], action) => {
                 return post.id === action.post.id;
             });
         case 'SET_POSTS':
-            console.log(action.posts);
             return action.posts;
         default:
             return state;
