@@ -18,7 +18,7 @@ const AppRouter = () => (
       <Switch>
         <PublicRoute path="/dashboard" component={ DashboardPage } />
         <PublicRoute path="/post/:id" component={ PostPage } />
-        <PrivateRoute path="/edit" component={ EditPostPage } />
+        <PrivateRoute path="/edit/:id" component={ EditPostPage } />
         <Route component={NotFoundPage} />
       </Switch>
     </div>

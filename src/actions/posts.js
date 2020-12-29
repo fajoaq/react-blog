@@ -40,30 +40,38 @@ export const removePost = ({ id } = {}) => ({
 
 //START SET_POSTS
 export const startSetPosts = () => {
-    return (dispatch, getState) => {
-      const uid = getState().auth.uid;
-       return database.ref(`users/`).once('value').then((snapshot) => {
-        const userPosts = [];
-        snapshot.forEach((user) => {
-          user.forEach((posts) => {
-            posts.forEach((post) => {
-                userPosts.push({
-                  id: post.key,
-                  ...post.val()
-              });
+  return (dispatch, getState) => {
+    const uid = getState().auth.uid;
+      return database.ref(`users/`).once('value').then((snapshot) => {
+      const userPosts = [];
+      snapshot.forEach((user) => {
+        user.forEach((posts) => {
+          posts.forEach((post) => {
+              userPosts.push({
+                id: post.key,
+                ...post.val()
             });
           });
         });
-        dispatch(setPosts(userPosts));
       });
-    };
+      dispatch(setPosts(userPosts));
+    });
   };
+};
   
-  // SET_POSTS
-  export const setPosts = (posts) => ({
-    type: 'SET_POSTS',
-    posts
-  });
+// SET_POSTS
+export const setPosts = (posts) => ({
+  type: 'SET_POSTS',
+  posts
+});
   
-  
+// GET_SINGLE_POSTS
+export const getSinglePost = ({id}) => {
+  return (dispatch, getState) => {
+    const uid = getState().auth.uid;
+      return database.ref(`users/${uid}/posts/${id}`).once('value').then((ref) => {
+        return ref.val();
+      });
+  };
+};
 

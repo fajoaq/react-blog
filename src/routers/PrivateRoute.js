@@ -5,19 +5,19 @@ import Header from '../components/Header';
 
 export const PrivateRoute = ({ 
     isAuthenticated,
-    postId, 
+    computedMatch,
     component: Component,
     ...rest
 }) => (
     <Route {...rest} component={(props) => (
         isAuthenticated? (
             <div>
-                <Header isLogged={ true }/>
+                <Header isAuthenticated={ isAuthenticated }/>
                 <Component {...props}/>
             </div>    
         ) : (
             <div>
-                <Redirect to={`/post/${postId}`} />
+                <Redirect to={`/post/${computedMatch.params.id}`} />
             </div>  
         )
     )}/>
@@ -25,8 +25,7 @@ export const PrivateRoute = ({
 
 const mapStateToProps = (state, props) => {
     return {
-        isAuthenticated: !!state.auth.uid,
-        postId: props.location.state.postId
+        isAuthenticated: !!state.auth.uid
     };
 }
 

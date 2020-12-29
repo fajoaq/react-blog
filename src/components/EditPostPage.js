@@ -1,28 +1,47 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { startRemovePost } from '../actions/posts';
-import { history } from '../routers/AppRouter';
+import { startRemovePost, getSinglePost } from '../actions/posts';
 
 export class EditPostPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state={
+      post: {
+        postTitle: ''
+      }
+    }
+    console.log(this.state);
+  }
+  componentDidMount() {
+    const id = this.props.match.params.id;
+
+    this.props.getSinglePost({id}).then((data) => {
+      this.setState(() => ({
+        post: data
+      }));
+    });
+  };
+  handleTitleChange = ({target}) => {
+    this.setState(() => ({
+      post: {
+        postTitle: target.value
+      }
+    }));
+  };
   handleDeletePost = () => {
-    console.log(this.props.post);
     this.props.startRemovePost({id: this.props.post.id });
     this.props.history.push('/dashboard');
   };
   render() {
     return (
       <div>
-        <div>This is an editable post.</div>
-          <div>
-            {
-              (this.props.post) && <h3>{ this.props.post.postTitle }</h3>
-            }
-          </div>
-          <div>
-          {
-            (this.props.post) && <h3>{ this.props.post.id }</h3>
-          }
-        </div>
+        <form>
+          <label>
+            Title
+            <input type="text" name="test" onChange={ this.handleTitleChange } value={ this.state.post.postTitle } />
+          </label>
+        </form>
+
         <div>
           <button onClick={ this.handleDeletePost }>Delete Post</button>
         </div>
@@ -31,12 +50,13 @@ export class EditPostPage extends React.Component {
   };
 };
 
-const mapStateToProps = (state, props) => ({
-  post: state.postList.find((post) => post.id === props.location.state.postId)
-});
+/* const mapStateToProps = (state, props) => ({
+  post: state.postList.find((post) => post.id === props.match.params.id)
+}); */
 
 const mapDispatchToProps = (dispatch) => ({
+  getSinglePost: (id) => dispatch(getSinglePost(id)),
   startRemovePost: (id) => dispatch(startRemovePost(id))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditPostPage);
+export default connect(undefined, mapDispatchToProps)(EditPostPage);
