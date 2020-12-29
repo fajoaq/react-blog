@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 
 import { startAddPost } from '../actions/posts';
+import { AiFillPlusCircle } from 'react-icons/ai';
 
 export class AddPost extends React.Component {
     onAddPost = () => {
@@ -16,7 +17,7 @@ export class AddPost extends React.Component {
     render() {
         return (
             <div className="content-container">
-                <button onClick={ this.onAddPost }>Add Post</button>
+                <button onClick={ this.onAddPost }><AiFillPlusCircle /></button>
             </div>
         );
     };

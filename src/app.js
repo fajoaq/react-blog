@@ -36,7 +36,6 @@ firebase.auth().onAuthStateChanged((user) => {
     store.dispatch(login(user.uid));
     } else {
     store.dispatch(logout());
-      history.push('/');
   }
   store.dispatch(startSetPosts()).then(() => {
       if (history.location.pathname === '/') {

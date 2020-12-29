@@ -15,9 +15,11 @@ export const Header = ({ startLogin, startLogout, isLogged }) => (
           <h1>React Blog</h1>
         </Link>
         { isLogged ? 
-          <div>
-            <AddPost />
-            <button className="button button--link" onClick={ startLogout }>Log out</button>  
+          <div className="login__container">
+            <div className="button-group">
+              <AddPost />
+              <button className="button button--link" onClick={ startLogout }>Log out</button>
+            </div>  
           </div>
           : 
           <div className="login__container">
