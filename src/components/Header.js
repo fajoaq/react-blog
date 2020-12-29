@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+
+import AddPost from './AddPost';
 import { startLogin, startLogout } from '../actions/auth';
 import { AiFillGithub } from 'react-icons/ai';
 import { FcGoogle } from 'react-icons/fc'; 
@@ -13,7 +15,10 @@ export const Header = ({ startLogin, startLogout, isLogged }) => (
           <h1>React Blog</h1>
         </Link>
         { isLogged ? 
-          <button className="button button--link" onClick={ startLogout }>Log out</button>  
+          <div>
+            <AddPost />
+            <button className="button button--link" onClick={ startLogout }>Log out</button>  
+          </div>
           : 
           <div className="login__container">
             <div className="button-group">
