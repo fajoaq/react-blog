@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { startRemovePost } from '../actions/posts';
 
-export class PostPage extends React.Component {
+export class EditPostPage extends React.Component {
   render() {
     return (
       <div>
-        <div>This is a post</div>
+        <div>This is an editable post.</div>
           <div>
             {
               (this.props.post) && <h3>{ this.props.post.postTitle }</h3>
@@ -22,7 +23,11 @@ export class PostPage extends React.Component {
 };
 
 const mapStateToProps = (state, props) => ({
-  post: state.postList.find((post) => post.id === props.match.params.id)
+  post: state.postList.find((post) => post.id === props.location.state.postId)
 });
 
-export default connect(mapStateToProps)(PostPage);
+const mapDispatchToProps = (dispatch) => ({
+  startRemovePost: (id) => dispatch(startRemovePost(id))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditPostPage);

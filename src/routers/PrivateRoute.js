@@ -4,7 +4,8 @@ import { Route, Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 
 export const PrivateRoute = ({ 
-    isAuthenticated, 
+    isAuthenticated,
+    postId, 
     component: Component,
     ...rest
 }) => (
@@ -16,15 +17,17 @@ export const PrivateRoute = ({
             </div>    
         ) : (
             <div>
-                <Header isLogged={ false }/>
-                <Component {...props}/>
+                <Redirect to={`/post/${postId}`} />
             </div>  
         )
     )}/>
 );
 
-const mapStateToProps = (state) => ({
-    isAuthenticated: !!state.auth.uid
-});
+const mapStateToProps = (state, props) => {
+    return {
+        isAuthenticated: !!state.auth.uid,
+        postId: props.location.state.postId
+    };
+}
 
 export default connect(mapStateToProps)(PrivateRoute);
