@@ -1,8 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { startRemovePost } from '../actions/posts';
+import { history } from '../routers/AppRouter';
 
 export class EditPostPage extends React.Component {
+  handleDeletePost = () => {
+    console.log(this.props.post);
+    this.props.startRemovePost({id: this.props.post.id });
+    this.props.history.push('/dashboard');
+  };
   render() {
     return (
       <div>
@@ -16,6 +22,9 @@ export class EditPostPage extends React.Component {
           {
             (this.props.post) && <h3>{ this.props.post.id }</h3>
           }
+        </div>
+        <div>
+          <button onClick={ this.handleDeletePost }>Delete Post</button>
         </div>
       </div>
     );

@@ -9,7 +9,7 @@ export default (state = [], action) => {
             ];
         case 'REMOVE_POST':
             return state.filter((post) => {
-                return post.id === action.post.id;
+                return post.id !== action.id;
             });
         case 'SET_POSTS':
             return action.posts;
