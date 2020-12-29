@@ -12,6 +12,12 @@ export default (state = [], action) => {
             });
         case 'SET_POSTS':
             return action.posts;
+        case 'UPDATE_POST':
+            let updateList = state.filter((post) => post.id !== action.post.id );
+            return [
+                ...updateList,
+                action.post
+            ];
         default:
             return state;
     };

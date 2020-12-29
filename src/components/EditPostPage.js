@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { startRemovePost, getSinglePost } from '../actions/posts';
+import { startRemovePost, getSinglePost, startUpdatePost } from '../actions/posts';
 
 export class EditPostPage extends React.Component {
   state={
@@ -35,6 +35,11 @@ export class EditPostPage extends React.Component {
       }
     }));
   };
+  handleSavepost = () => {
+    console.log('here');
+    this.props.startUpdatePost(this.state.post);
+    this.props.history.push('/dashboard');
+  };
   handleDeletePost = () => {
     this.props.startRemovePost({id: this.state.post.id });
     this.props.history.push('/dashboard');
@@ -46,7 +51,9 @@ export class EditPostPage extends React.Component {
           <input type="text" name="postTitle" onChange={ this.handleTitleChange } value={ this.state.post.postTitle } />
           <textarea name="postTitle" onChange={ this.handleBodyTextChange } value={ this.state.post.postBody } />
         </form>
-
+        <div>
+        <button onClick={ this.handleSavepost }>save Post</button>
+        </div>
         <div>
           <button onClick={ this.handleDeletePost }>Delete Post</button>
         </div>
@@ -61,6 +68,7 @@ export class EditPostPage extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   getSinglePost: (id) => dispatch(getSinglePost(id)),
+  startUpdatePost: (post) => dispatch(startUpdatePost(post)),
   startRemovePost: (id) => dispatch(startRemovePost(id))
 });
 
