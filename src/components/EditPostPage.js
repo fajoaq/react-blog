@@ -3,15 +3,13 @@ import { connect } from 'react-redux';
 import { startRemovePost, getSinglePost } from '../actions/posts';
 
 export class EditPostPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state={
-      post: {
-        postTitle: ''
-      }
+  state={
+    post: {
+      id: '',
+      postTitle: ''
     }
-    console.log(this.state);
-  }
+  };
+
   componentDidMount() {
     const id = this.props.match.params.id;
 
@@ -29,7 +27,7 @@ export class EditPostPage extends React.Component {
     }));
   };
   handleDeletePost = () => {
-    this.props.startRemovePost({id: this.props.post.id });
+    this.props.startRemovePost({id: this.state.post.id });
     this.props.history.push('/dashboard');
   };
   render() {

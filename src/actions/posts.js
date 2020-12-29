@@ -70,7 +70,10 @@ export const getSinglePost = ({id}) => {
   return (dispatch, getState) => {
     const uid = getState().auth.uid;
       return database.ref(`users/${uid}/posts/${id}`).once('value').then((ref) => {
-        return ref.val();
+        return {
+          id: ref.key,
+          ...ref.val()
+        }
       });
   };
 };
