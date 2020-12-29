@@ -2,7 +2,6 @@
 export default (state = [], action) => {
     switch(action.type) {
         case 'ADD_POST':
-            console.log(action.post);
             return [
                 ...state,
                 action.post

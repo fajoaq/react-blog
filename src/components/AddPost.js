@@ -8,7 +8,8 @@ import { AiFillPlusCircle } from 'react-icons/ai';
 export class AddPost extends React.Component {
     onAddPost = () => {
         const post = {
-            postTitle: "new post"
+            postTitle: "new post",
+            postBody: "This is the post body"
         };
     
         this.props.startAddPost(post);

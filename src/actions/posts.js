@@ -4,10 +4,11 @@ export const startAddPost = (postData = {}) => {
     return (dispatch, getState) => {
       const uid = getState().auth.uid;
       const {
-        postTitle = ''
+        postTitle = '',
+        postBody = ''
         } = postData;
   
-      const post = { postTitle };
+      const post = { postTitle, postBody };
       return database.ref(`users/${uid}/posts`).push(post).then((ref) => {
         dispatch(addPost({
           id: ref.key,
@@ -73,7 +74,7 @@ export const getSinglePost = ({id}) => {
         return {
           id: ref.key,
           ...ref.val()
-        }
+        };
       });
   };
 };

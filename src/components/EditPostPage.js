@@ -6,7 +6,8 @@ export class EditPostPage extends React.Component {
   state={
     post: {
       id: '',
-      postTitle: ''
+      postTitle: '',
+      postBody: ''
     }
   };
 
@@ -26,6 +27,14 @@ export class EditPostPage extends React.Component {
       }
     }));
   };
+  handleBodyTextChange = ({target}) => {
+    this.setState(({post}) => ({
+      post: {
+        ...post,
+        postBody: target.value
+      }
+    }));
+  };
   handleDeletePost = () => {
     this.props.startRemovePost({id: this.state.post.id });
     this.props.history.push('/dashboard');
@@ -34,10 +43,8 @@ export class EditPostPage extends React.Component {
     return (
       <div>
         <form>
-          <label>
-            Title
-            <input type="text" name="test" onChange={ this.handleTitleChange } value={ this.state.post.postTitle } />
-          </label>
+          <input type="text" name="postTitle" onChange={ this.handleTitleChange } value={ this.state.post.postTitle } />
+          <textarea name="postTitle" onChange={ this.handleBodyTextChange } value={ this.state.post.postBody } />
         </form>
 
         <div>
