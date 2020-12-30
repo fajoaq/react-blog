@@ -33,14 +33,15 @@ ReactDOM.render(<LoadingPage />, document.getElementById('app'));
 //Redirect user
 firebase.auth().onAuthStateChanged((user) => {
   if(user) {
-    store.dispatch(login(user.uid));
+    store.dispatch(login(user.uid, user.displayName));
     } else {
     store.dispatch(logout());
   }
+
   store.dispatch(startSetPosts()).then(() => {
-      if (history.location.pathname === '/') {
+/*       if (history.location.pathname === '/') {
       history.push('/dashboard');
-    }
+    } */
   });
   
   renderApp();

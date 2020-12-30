@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import PostListItem from './PostListItem';
 
 export const PostList = (props) => (
-
     <div className="content-container">
         {
             (props.postList.length === 0) ? 
@@ -20,8 +19,9 @@ export const PostList = (props) => (
     </div>
 );
 
+
 const mapStateToProps = (state) => ({
     postList: state.postList
-})
+});
 
 export default connect(mapStateToProps)(PostList);

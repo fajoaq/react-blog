@@ -3,12 +3,16 @@ import database from '../firebase/firebase';
 export const startAddPost = (postData = {}) => {
     return (dispatch, getState) => {
       const uid = getState().auth.uid;
+      const userName = getState().auth.displayName
+      console.log(userName);
       const {
         postTitle = '',
-        postBody = ''
+        postBody = '',
+        postAuthor = userName,
+        postUid = uid
         } = postData;
   
-      const post = { postTitle, postBody };
+      const post = { postTitle, postBody, postAuthor, postUid };
       return database.ref(`users/${uid}/posts`).push(post).then((ref) => {
         dispatch(addPost({
           id: ref.key,

@@ -6,6 +6,6 @@ export const DashboardPage = () => (
     <div>
       <PostList />
     </div>
-  );
+);
 
 export default DashboardPage;

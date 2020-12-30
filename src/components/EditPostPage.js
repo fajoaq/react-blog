@@ -4,52 +4,44 @@ import { startRemovePost, getSinglePost, startUpdatePost } from '../actions/post
 
 export class EditPostPage extends React.Component {
   state={
-    post: {
       id: '',
       postTitle: '',
       postBody: ''
-    }
-  };
+    };
 
   componentDidMount() {
     const id = this.props.match.params.id;
 
     this.props.getSinglePost({id}).then((data) => {
       this.setState(() => ({
-        post: data
+        ...data
       }));
     });
   };
   handleTitleChange = ({target}) => {
     this.setState(() => ({
-      post: {
-        postTitle: target.value
-      }
+      postTitle: target.value
     }));
   };
   handleBodyTextChange = ({target}) => {
-    this.setState(({post}) => ({
-      post: {
-        ...post,
-        postBody: target.value
-      }
+    this.setState(() => ({
+      postBody: target.value
     }));
   };
   handleSavepost = () => {
-    console.log('here');
-    this.props.startUpdatePost(this.state.post);
+    this.props.startUpdatePost(this.state);
     this.props.history.push('/dashboard');
   };
   handleDeletePost = () => {
-    this.props.startRemovePost({id: this.state.post.id });
+    this.props.startRemovePost({id: this.state.id });
     this.props.history.push('/dashboard');
   };
   render() {
     return (
       <div>
         <form>
-          <input type="text" name="postTitle" onChange={ this.handleTitleChange } value={ this.state.post.postTitle } />
-          <textarea name="postTitle" onChange={ this.handleBodyTextChange } value={ this.state.post.postBody } />
+          <input type="text" name="postTitle" onChange={ this.handleTitleChange } value={ this.state.postTitle } />
+          <textarea name="postTitle" onChange={ this.handleBodyTextChange } value={ this.state.postBody } />
         </form>
         <div>
         <button onClick={ this.handleSavepost }>save Post</button>
