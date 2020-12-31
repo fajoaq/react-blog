@@ -69,19 +69,6 @@ export const setPosts = (posts) => ({
   type: 'SET_POSTS',
   posts
 });
-  
-// GET_SINGLE_POSTS
-export const getSinglePost = ({id}) => {
-  return (dispatch, getState) => {
-    const uid = getState().auth.uid;
-      return database.ref(`users/${uid}/posts/${id}`).once('value').then((ref) => {
-        return {
-          id: ref.key,
-          ...ref.val()
-        };
-      });
-  };
-};
 
 //START UPDATE_POST
 export const startUpdatePost = (post) => {
