@@ -25,19 +25,10 @@ export const PrivateRoute = ({
 );
 
 const mapStateToProps = (state, props) => {
-    const postId = props.computedMatch.params.id;
+    const postId = props.computedMatch.params.id
+    const postUid = props.location.uid;
+    const isAuthor = postUid === state.auth.uid;
 
-    let json = localStorage.getItem('post');
-    let post = undefined;
-    if(json) {
-        post = JSON.parse(json);
-    } else {
-        post = state.postList.find((post) => post.id === postId);
-        json = JSON.stringify(post);
-        localStorage.setItem('post', json);
-    }
-
-    const isAuthor = post.postUid === state.auth.uid;
     return {
         isAuthenticated: !!state.auth.uid,
         isAuthor,
