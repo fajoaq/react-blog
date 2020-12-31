@@ -1,6 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import { startRemovePost, getSinglePost, startUpdatePost } from '../actions/posts';
+import PostModal from '../components/PostModal'
+import PostForm from '../components/PostForm';
 
 export class EditPostPage extends React.Component {
   state={
@@ -8,7 +12,8 @@ export class EditPostPage extends React.Component {
       postTitle: '',
       postBody: '',
       postAuthor: '',
-      postUid: ''
+      postUid: '',
+      initiateRemove: false
   };
 
   componentDidMount() {
@@ -34,23 +39,51 @@ export class EditPostPage extends React.Component {
     this.props.startUpdatePost(this.state);
     this.props.history.push('/dashboard');
   };
+  //display modal
+  onInitiateRemove = () => {
+    this.setState(() => ({ initiateRemove: true }));
+  };
   handleDeletePost = () => {
     this.props.startRemovePost({id: this.state.id });
     this.props.history.push('/dashboard');
   };
+  handleClearRemove = () => {
+    this.setState(() => ({ initiateRemove: false }));
+  };
   render() {
     return (
-      <div>
-        <form>
-          <input type="text" name="postTitle" onChange={ this.handleTitleChange } value={ this.state.postTitle } />
-          <textarea name="postTitle" onChange={ this.handleBodyTextChange } value={ this.state.postBody } />
-        </form>
         <div>
-        <button onClick={ this.handleSavepost }>save Post</button>
-        </div>
-        <div>
-          <button onClick={ this.handleDeletePost }>Delete Post</button>
-        </div>
+          <PostModal
+            contentLabel={ this.state.postTitle }
+            initiateRemove={ this.state.initiateRemove }
+            handleClearRemove={ this.handleClearRemove }
+            onRemove={ this.handleDeletePost }
+          />
+          <div className="page-header">
+            <div className="content-container">
+              <h1 className="page-header__title">Edit Post</h1>
+              <div className="post-item__text">
+              <Link to={{
+                pathname: `/post/${this.state.id}`,
+                uid: this.state.postUid
+                }} className="post-item__container page-header__message">
+                  {"Link readable at: "}<span>{ `https://app.com/post/${this.state.id}`}</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+          <div className="content-container">
+            <PostForm 
+                postTitle={ this.state.postTitle }
+                postBody={ this.state.postBody }
+                handleTitleChange={ this.handleTitleChange }
+                handleBodyTextChange={ this.handleBodyTextChange }
+            />
+          </div>
+          <div className="button-group">
+            <button className="button" onClick={ this.handleSavepost }>save Post</button>
+            <button className="button" onClick={ this.onInitiateRemove }>Delete Post</button>
+          </div>
       </div>
     );
   };

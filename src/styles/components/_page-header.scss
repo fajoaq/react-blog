@@ -2,6 +2,8 @@
     background: $off-white;
     padding: $l-size 0;
     margin-bottom: $l-size;
+
+
 }
 .page-header__title {
     margin: 0;
@@ -15,7 +17,8 @@
     margin-top: $m-size;
 }
 
-.page-header__error {
+.page-header__message {
+    text-decoration: none;
     font-size: $font-size-small;
     font-style: italic;
     font-weight: 300;

@@ -26,7 +26,7 @@ export const PrivateRoute = ({
 
 const mapStateToProps = (state, props) => {
     const postId = props.computedMatch.params.id
-    const postUid = props.location.uid;
+    const postUid = props.location.state.uid;
     const isAuthor = postUid === state.auth.uid;
 
     return {
