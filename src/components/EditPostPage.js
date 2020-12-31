@@ -6,8 +6,10 @@ export class EditPostPage extends React.Component {
   state={
       id: '',
       postTitle: '',
-      postBody: ''
-    };
+      postBody: '',
+      postAuthor: '',
+      postUid: ''
+  };
 
   componentDidMount() {
     const id = this.props.match.params.id;

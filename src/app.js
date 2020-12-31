@@ -39,9 +39,9 @@ firebase.auth().onAuthStateChanged((user) => {
   }
 
   store.dispatch(startSetPosts()).then(() => {
-/*       if (history.location.pathname === '/') {
+      if (history.location.pathname === '/') {
       history.push('/dashboard');
-    } */
+    }
   });
   
   renderApp();
