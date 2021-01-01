@@ -11,13 +11,13 @@ export const startLogin = ({ target }) => {
     let provider = undefined;
     switch(target.name) {
         case 'googleLogin':
-            provider = firebase.auth().signInWithPopup(googleAuthProvider);
+            provider = googleAuthProvider;
         case 'gitHubLogin':
-            provider = firebase.auth().signInWithPopup(gitHubAuthProvider);
+            provider = gitHubAuthProvider;
         default:
-            provider = firebase.auth().signInWithPopup(googleAuthProvider);
+            provider = googleAuthProvider;
     }
-    return () => provider.then(() => {
+    return () => firebase.auth().signInWithPopup(provider).then(() => {
         if(history.location.pathname.includes('post')) {
             history.push('/dashboard');
         }
