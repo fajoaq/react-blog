@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
+
+import { getSinglePost } from '../actions/posts';
 import Header from '../components/Header';
 
 export const PrivateRoute = ({ 
@@ -13,7 +15,7 @@ export const PrivateRoute = ({
     <Route {...rest} component={(props) => (
         (isAuthenticated && isAuthor) ? (
             <div>
-                <Header isAuthenticated={ isAuthenticated }/>
+                <Header isAuthenticated={ isAuthenticated } />
                 <Component {...props}/>
             </div>    
         ) : (
@@ -25,6 +27,8 @@ export const PrivateRoute = ({
 );
 
 const mapStateToProps = (state, props) => {
+    /* console.log(props, state) */
+    /* console.log('here'); */
     const postId = props.computedMatch.params.id
     const postUid = props.location.state.uid;
     const isAuthor = postUid === state.auth.uid;

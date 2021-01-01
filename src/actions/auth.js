@@ -1,23 +1,36 @@
 import { firebase, googleAuthProvider, gitHubAuthProvider } from '../firebase/firebase';
+import { history } from '../routers/AppRouter';
 
-export const login = (uid, displayName) => ({
+export const login = ({ uid, displayName }) => ({
     type: 'LOGIN',
     uid,
     displayName
 });
 
 export const startLogin = ({ target }) => {
-    switch(target.id) {
+    switch(target.name) {
         case 'googleLogin':
-            return () =>{
-                return firebase.auth().signInWithPopup(googleAuthProvider);
-            };
+            return () => {
+                firebase.auth().signInWithPopup(googleAuthProvider).then(() => {   
+                    if(history.location.pathname.includes('post')) {
+                        history.push('/dashboard');
+                    }
+                });
+            }
         case 'gitHubLogin':
-            return () =>{
-                return firebase.auth().signInWithPopup(gitHubAuthProvider);
-            };
+            return () => {
+                firebase.auth().signInWithPopup(gitHubAuthProvider);
+                    if(history.location.pathname.includes('post')) {
+                        history.push('/dashboard');
+                    }
+            }
         default:
-            throw new Error('Please provide a service id');
+            return () => {
+                firebase.auth().signInWithPopup(googleAuthProvider);
+                    if(history.location.pathname.includes('post')) {
+                        history.push('/dashboard');
+                    }
+            }
     }
 };
 
@@ -27,6 +40,7 @@ export const logout = () => ({
 
 export const startLogout = () => {
     return () => {
-        return firebase.auth().signOut();
+        firebase.auth().signOut();
+        logout();
     };
 };

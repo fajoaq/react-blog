@@ -10,6 +10,7 @@ export class EditPostPage extends React.Component {
   state={
       initiateRemove: false
   };
+
   handleTitleChange = ({target}) => {
     this.setState(() => ({
       postTitle: target.value

@@ -10,7 +10,7 @@ export const PublicRoute = ({
 }) => (
     <Route {...rest} component={(props) => (
         <div>
-            <Header isAuthenticated={ isAuthenticated }/>
+            <Header isAuthenticated={ isAuthenticated } />
             <Component {...props}/>
         </div>  
     )}/>
