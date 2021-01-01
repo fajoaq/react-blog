@@ -8,30 +8,20 @@ export const login = ({ uid, displayName }) => ({
 });
 
 export const startLogin = ({ target }) => {
+    let provider = undefined;
     switch(target.name) {
         case 'googleLogin':
-            return () => {
-                firebase.auth().signInWithPopup(googleAuthProvider).then(() => {   
-                    if(history.location.pathname.includes('post')) {
-                        history.push('/dashboard');
-                    }
-                });
-            }
+            provider = firebase.auth().signInWithPopup(googleAuthProvider);
         case 'gitHubLogin':
-            return () => {
-                firebase.auth().signInWithPopup(gitHubAuthProvider);
-                    if(history.location.pathname.includes('post')) {
-                        history.push('/dashboard');
-                    }
-            }
+            provider = firebase.auth().signInWithPopup(gitHubAuthProvider);
         default:
-            return () => {
-                firebase.auth().signInWithPopup(googleAuthProvider);
-                    if(history.location.pathname.includes('post')) {
-                        history.push('/dashboard');
-                    }
-            }
+            provider = firebase.auth().signInWithPopup(googleAuthProvider);
     }
+    return () => provider.then(() => {
+        if(history.location.pathname.includes('post')) {
+            history.push('/dashboard');
+        }
+    });
 };
 
 export const logout = () => ({
