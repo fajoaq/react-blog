@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
+import { history } from '../routers/AppRouter';
+
 import Header from '../components/Header';
 
 export const PublicRoute = ({ 
@@ -9,10 +11,14 @@ export const PublicRoute = ({
     ...rest
 }) => (
     <Route {...rest} component={(props) => (
+        ( history.location.pathname === '/') ? 
+            <Redirect to={'/dashboard'} />
+        : 
         <div>
             <Header isAuthenticated={ isAuthenticated } />
             <Component {...props}/>
         </div>  
+        
     )}/>
 );
 
