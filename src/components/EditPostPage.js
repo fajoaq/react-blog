@@ -36,7 +36,7 @@ export class EditPostPage extends React.Component {
   };
   handleSavepost = () => {
     this.props.startUpdatePost(this.state).then(() => {
-      this.props.history.push('/dashboard');
+      this.props.history.push('/');
     });
   };
   //display modal
@@ -45,7 +45,7 @@ export class EditPostPage extends React.Component {
   };
   handleDeletePost = () => {
     this.props.startRemovePost({id: this.props.post.id }).then(() => {
-      this.props.history.push('/dashboard');
+      this.props.history.push('/');
     });
   };
   handleClearRemove = () => {

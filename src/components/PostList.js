@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import PostListItem from './PostListItem';
-import { startSetPosts } from '../actions/posts';
 
 export const PostList = (props) => (
     <div>

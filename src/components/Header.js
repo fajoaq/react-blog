@@ -11,7 +11,7 @@ export const Header = ({ startLogin, startLogout, isAuthenticated, postId }) => 
   <header className="header">
     <div className="content-container">
       <div className="header__content">
-        <Link className="header__title" to="/dashboard">
+        <Link className="header__title" to="/">
           <h1>React Blog</h1>
         </Link>
         { isAuthenticated ? 

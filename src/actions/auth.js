@@ -19,7 +19,7 @@ export const startLogin = ({ target }) => {
     }
     return () => firebase.auth().signInWithPopup(provider).then(() => {
         if(history.location.pathname.includes('post')) {
-            history.push('/dashboard');
+            history.push('/');
         }
     });
 };
