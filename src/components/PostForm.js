@@ -1,10 +1,20 @@
 import React from 'react';
 
-export const PostForm = (props) => (
-    <form className="form">
-        <input className="text-input" type="text" name="postTitle" onChange={ props.handleTitleChange } value={ props.postTitle } />
-        <textarea className="textarea" name="postTitle" onChange={ props.handleBodyTextChange } value={ props.postBody } />
-    </form>
-);
+export class PostForm extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+    componentDidMount() {
+        this.props.setPostData();
+    }
+    render() {
+        return (
+            <form className="form">
+                <input className="text-input" type="text" name="postTitle" onChange={ this.props.handleTitleChange } value={ this.props.postTitle } />
+                <textarea className="textarea" name="postTitle" onChange={ this.props.handleBodyTextChange } value={ this.props.postBody } />
+            </form>
+        );
+    };
+};
 
 export default PostForm;

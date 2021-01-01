@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal from 'react-modal';
 
-export const ExpenseModal = (props) => (
+export const PostModal = (props) => (
     <Modal
         isOpen={!!props.initiateRemove}
         contentLabel="Remove expense?"
@@ -24,4 +24,4 @@ export const ExpenseModal = (props) => (
     </Modal>
 );
 
-export default ExpenseModal;
+export default PostModal;

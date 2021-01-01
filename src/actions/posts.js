@@ -85,6 +85,7 @@ export const getSinglePost = ({id}) => {
 
 //START UPDATE_POST
 export const startUpdatePost = (post) => {
+  console.log(post);
   return (dispatch, getState) => {
     const uid = getState().auth.uid;
       return database.ref(`users/${uid}/posts/${post.id}`).update({...post}).then(() => {

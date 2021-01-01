@@ -8,9 +8,22 @@ import PostForm from '../components/PostForm';
 
 export class EditPostPage extends React.Component {
   state={
-      initiateRemove: false
+    initiateRemove: false,
+    postTitle: '',
+    postBody: '',
+    postAuthor: '',
+    id: '',
+    postUid: ''
   };
-
+  setPostData = () => {
+    this.setState(() => ({
+      postTitle: this.props.post.postTitle,
+      postBody: this.props.post.postBody,
+      postAuthor: this.props.post.postAuthor,
+      id: this.props.post.id,
+      postUid: this.props.post.postUid
+    }));
+  };
   handleTitleChange = ({target}) => {
     this.setState(() => ({
       postTitle: target.value
@@ -22,16 +35,18 @@ export class EditPostPage extends React.Component {
     }));
   };
   handleSavepost = () => {
-    this.props.startUpdatePost(this.state);
-    this.props.history.push('/dashboard');
+    this.props.startUpdatePost(this.state).then(() => {
+      this.props.history.push('/dashboard');
+    });
   };
   //display modal
   onInitiateRemove = () => {
     this.setState(() => ({ initiateRemove: true }));
   };
   handleDeletePost = () => {
-    this.props.startRemovePost({id: this.props.post.id });
-    this.props.history.push('/dashboard');
+    this.props.startRemovePost({id: this.props.post.id }).then(() => {
+      this.props.history.push('/dashboard');
+    });
   };
   handleClearRemove = () => {
     this.setState(() => ({ initiateRemove: false }));
@@ -40,12 +55,6 @@ export class EditPostPage extends React.Component {
     return (
       <div>
       { this.props.post && <div>
-        <PostModal
-          contentLabel={ this.props.post.postTitle }
-          initiateRemove={ this.props.post.initiateRemove }
-          handleClearRemove={ this.handleClearRemove }
-          onRemove={ this.handleDeletePost }
-        />
         <div className="page-header">
           <div className="content-container">
             <h1 className="page-header__title">Edit Post</h1>
@@ -60,15 +69,22 @@ export class EditPostPage extends React.Component {
           </div>
         </div>
         <div className="content-container">
-          <PostForm 
-              postTitle={ this.props.post.postTitle }
-              postBody={ this.props.post.postBody }
+          <PostForm
+              setPostData={ this.setPostData }
+              postTitle={ this.state.postTitle }
+              postBody={ this.state.postBody }
               handleTitleChange={ this.handleTitleChange }
               handleBodyTextChange={ this.handleBodyTextChange }
           />
         </div>
+        <PostModal
+          contentLabel={ this.state.postTitle }
+          initiateRemove={ this.state.initiateRemove }
+          handleClearRemove={ this.handleClearRemove }
+          onRemove={ this.handleDeletePost }
+        />
         <div className="button-group">
-          <button className="button" onClick={ this.handleSavepost }>save Post</button>
+          <button className="button" onClick={ this.handleSavepost }>Save Post</button>
           <button className="button" onClick={ this.onInitiateRemove }>Delete Post</button>
         </div>
       </div>}
