@@ -17,6 +17,10 @@ export const startAddPost = (postData = {}) => {
           id: ref.key,
           ...post
         }));
+        return {
+          id: ref.key, 
+          postUid: post.postUid
+        };
       });
     };
   };
