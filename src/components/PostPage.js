@@ -6,13 +6,12 @@ export const PostPage = (props) => (
     { (props.post) ? <div>
       <div className="page-header">
         <div className="content-container">
-          { props.post && 
-            <h1 className="page-header__title">
-              { props.post.postTitle}
-            </h1>
-          }
-          <div className="post-item__text">
-          </div>
+          <h1 className="page-header__title">
+            Edit Post
+            <span className="page-header__author">
+              { ` - by ${props.post.postAuthor}` }
+            </span>
+          </h1>
         </div>
       </div>
       <div className="content-container">

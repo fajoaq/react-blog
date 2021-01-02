@@ -59,7 +59,12 @@ export class EditPostPage extends React.Component {
       { (this.props.post) ? <div>
         <div className="page-header">
           <div className="content-container">
-            <h1 className="page-header__title">Edit Post</h1>
+            <h1 className="page-header__title">
+              Edit Post
+              <span className="page-header__author">
+                { ` - by ${ this.props.post.postAuthor}` }
+              </span>
+            </h1>
             <div className="post-item__text">
             <Link to={{
               pathname: `/post/${this.props.post.id}`,

@@ -2,8 +2,6 @@
     background: $off-white;
     padding: $l-size 0;
     margin-bottom: $l-size;
-
-
 }
 .page-header__title {
     margin: 0;
@@ -11,6 +9,12 @@
     span {
         font-weight: 700;
     }
+}
+
+.page-header__author {
+    text-decoration: none;
+    font-size: $font-size-small;
+    font-weight: 300;
 }
 
 .page-header__actions {
