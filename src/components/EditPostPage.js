@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
-import { startRemovePost, getSinglePost, startUpdatePost } from '../actions/posts';
-import PostModal from '../components/PostModal'
-import PostForm from '../components/PostForm';
+
+import { startRemovePost, startUpdatePost } from '../actions/posts';
+import PageHeader from './PageHeader';
+import PostModal from './PostModal'
+import PostForm from './PostForm';
 
 export class EditPostPage extends React.Component {
   state={
@@ -57,24 +58,7 @@ export class EditPostPage extends React.Component {
     return (
       <div>
       { (this.props.post) ? <div>
-        <div className="page-header">
-          <div className="content-container">
-            <h1 className="page-header__title">
-              Edit Post
-              <span className="page-header__author">
-                { ` - by ${ this.props.post.postAuthor}` }
-              </span>
-            </h1>
-            <div className="post-item__text">
-            <Link to={{
-              pathname: `/post/${this.props.post.id}`,
-              uid: this.props.post.postUid
-              }} className="post-item__container page-header__message">
-                {"Link readable at: "}<span>{ `https://app.com/post/${this.props.post.id}`}</span>
-              </Link>
-            </div>
-          </div>
-        </div>
+        <PageHeader post={ this.props.post } isAuthor={ true }/>
         <div className="content-container">
           <PostForm
               setPostData={ this.setPostData }

@@ -17,13 +17,20 @@
     font-weight: 300;
 }
 
+.page-header__link {
+    text-decoration: none;
+    font-size: $font-size-small;
+    font-style: italic;
+    font-weight: 300;
+}
+.page-header__link--title {
+    font-style: normal;
+}
+
 .page-header__actions {
     margin-top: $m-size;
 }
 
 .page-header__message {
-    text-decoration: none;
-    font-size: $font-size-small;
-    font-style: italic;
-    font-weight: 300;
+
 }
