@@ -7,7 +7,7 @@ import { startLogin, startLogout } from '../actions/auth';
 import { AiFillGithub } from 'react-icons/ai';
 import { FcGoogle } from 'react-icons/fc'; 
 
-export const Header = ({ startLogin, startLogout, isAuthenticated, postId }) => (
+export const Header = ({ startLogin, startLogout, isAuthenticated }) => (
   <header className="header">
     <div className="content-container">
       <div className="header__content">
@@ -24,10 +24,10 @@ export const Header = ({ startLogin, startLogout, isAuthenticated, postId }) => 
           : 
           <div className="login__container">
             <div className="button-group">
-              <button name="googleLogin" id={ postId } className="button button--login" onClick={ startLogin }>
+              <button id="googleLogin" className="button button--login" onClick={ startLogin }>
                   <FcGoogle />
               </button>
-              <button name="gitHubLogin" id={ postId } className="button button--login" onClick={ startLogin }>
+              <button id="gitHubLogin" className="button button--login" onClick={ startLogin }>
                   <AiFillGithub />
               </button>
             </div>  

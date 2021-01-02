@@ -8,7 +8,7 @@ export const PostListItem = ({ post }) => (
         state: {uid: post.postUid}
     }} className="list-item">
         <div>
-            <span className="list-item__title">{`${post.postTitle}`}</span>
+            <h4 className="list-item__title">{`${post.postTitle}`}</h4>
         </div>
         <div>
             <span className="list-item__subtitle">{` | by: ${post.postAuthor}` }</span>

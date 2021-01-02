@@ -5,6 +5,7 @@
 }
 .page-header__title {
     margin: 0;
+    margin-bottom: $s-size;
     font-weight: 300;
     span {
         font-weight: 700;
@@ -15,6 +16,7 @@
     text-decoration: none;
     font-size: $font-size-small;
     font-weight: 300;
+    margin-bottom: $s-size;
 }
 
 .page-header__link {
@@ -24,13 +26,10 @@
     font-weight: 300;
 }
 .page-header__link--title {
+    color: $dark-grey;
     font-style: normal;
 }
 
 .page-header__actions {
     margin-top: $m-size;
-}
-
-.page-header__message {
-
 }
