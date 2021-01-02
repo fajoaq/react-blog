@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 
 
 import { startRemovePost, startUpdatePost } from '../actions/posts';
-import PageHeader from './PageHeader';
-import PostModal from './PostModal'
-import PostForm from './PostForm';
+import PageHeader from '../components/PageHeader';
+import PostModal from '../components/PostModal'
+import PostForm from '../components/PostForm';
 
 export class EditPostPage extends React.Component {
   state={
