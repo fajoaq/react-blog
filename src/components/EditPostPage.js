@@ -12,6 +12,7 @@ export class EditPostPage extends React.Component {
     postTitle: '',
     postBody: '',
     postAuthor: '',
+    created: '',
     id: '',
     postUid: ''
   };
@@ -20,6 +21,7 @@ export class EditPostPage extends React.Component {
       postTitle: this.props.post.postTitle,
       postBody: this.props.post.postBody,
       postAuthor: this.props.post.postAuthor,
+      created: this.props.post.created,
       id: this.props.post.id,
       postUid: this.props.post.postUid
     }));

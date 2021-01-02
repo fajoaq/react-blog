@@ -7,11 +7,12 @@ export const startAddPost = (postData = {}) => {
       const {
         postTitle = '',
         postBody = '',
+        created = '',
         postAuthor = userName,
         postUid = uid
         } = postData;
   
-      const post = { postTitle, postBody, postAuthor, postUid };
+      const post = { postTitle, postBody, created, postAuthor, postUid };
       return database.ref(`users/${uid}/posts`).push(post).then((ref) => {
         dispatch(addPost({
           id: ref.key,

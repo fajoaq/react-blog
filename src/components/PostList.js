@@ -7,6 +7,7 @@ export const PostList = (props) => (
     <div>
         { props.postList &&
             <div className="content-container">
+                <div className="list-body">
                 {
                     (props.postList.length === 0) ? 
                     <h3>No posts.</h3> 
@@ -18,6 +19,7 @@ export const PostList = (props) => (
                             />
                     })
                 }
+                </div>
             </div>
         }
     </div>

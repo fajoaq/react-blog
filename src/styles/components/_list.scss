@@ -29,9 +29,13 @@
     }
 
     @media (min-width: $desktop-breakpoint) {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-columns: 1fr minmax(15rem, 25rem) minmax(15rem, 25rem);
+        justify-items: center;
+        /* flex-direction: row;
+        justify-content: space-between; */
+        /* align-items: center; */
         padding: $m-size;
     }
 }
@@ -57,6 +61,7 @@
 }
 
 .list-item__data {
+    align-self: flex-end;
     margin: $s-size 0 0 0;
 
     @media (min-width: $desktop-breakpoint) {
