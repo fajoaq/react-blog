@@ -54,7 +54,7 @@ export class EditPostPage extends React.Component {
   render() {
     return (
       <div>
-      { this.props.post && <div>
+      { (this.props.post) ? <div>
         <div className="page-header">
           <div className="content-container">
             <h1 className="page-header__title">Edit Post</h1>
@@ -87,7 +87,12 @@ export class EditPostPage extends React.Component {
           <button className="button" onClick={ this.handleSavepost }>Save Post</button>
           <button className="button" onClick={ this.onInitiateRemove }>Delete Post</button>
         </div>
-      </div>}
+      </div>
+      :
+      <div className="content-container">
+        There is no such post.
+      </div>
+    }
   </div>
     );
   };

@@ -7,13 +7,14 @@ import Header from '../components/Header';
 
 export const PrivateRoute = ({ 
     isAuthenticated,
+    isValidId,
     isAuthor,
     postId,
     component: Component,
     ...rest
 }) => (
     <Route {...rest} component={(props) => (
-        (isAuthenticated && isAuthor) ? (
+        (isValidId && isAuthenticated && isAuthor) ? (
             <div>
                 <Header isAuthenticated={ isAuthenticated } />
                 <Component {...props}/>
@@ -30,11 +31,19 @@ const mapStateToProps = (state, props) => {
     /* console.log(props, state) */
     /* console.log('here'); */
     const postId = props.computedMatch.params.id
-    const postUid = props.location.state.uid;
-    const isAuthor = postUid === state.auth.uid;
+    let postUid = '';
+    let isValidId = false;
+    let isAuthor = false;
+
+    if(props.location.state) {
+        postUid = props.location.state.uid;
+        isAuthor = postUid === state.auth.uid;
+        isValidId = true;
+    }
 
     return {
         isAuthenticated: !!state.auth.uid,
+        isValidId,
         isAuthor,
         postId
     };
