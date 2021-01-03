@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import PageHeader from '../components/PageHeader';
+import PageHeader from './PostHeader';
 
 export const PostPage = (props) => (
   <div>
