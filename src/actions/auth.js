@@ -1,32 +1,40 @@
-import { firebase, googleAuthProvider, gitHubAuthProvider } from '../firebase/firebase';
+import database, { firebase, googleAuthProvider, gitHubAuthProvider } from '../firebase/firebase';
 import { history } from '../routers/AppRouter';
 
-export const login = ({ uid, displayName }) => ({
+export const login = ({ uid }) => ({
     type: 'LOGIN',
-    uid,
-    displayName
+    uid
 });
 
-export const startLogin = ({ target }) => {
-    let provider = undefined;
-    switch(target.id) {
+const setProvider = (id) => {
+    switch(id) {
         case 'googleLogin':
-            provider = googleAuthProvider;
-            break;
+            return googleAuthProvider;
         case 'gitHubLogin':
-            console.log(target.id);
-            provider = gitHubAuthProvider;
-            break;
+            return gitHubAuthProvider;
         default:
-            provider = googleAuthProvider;
-            break;
+            return googleAuthProvider;
     }
-    return () => firebase.auth().signInWithPopup(provider).then(() => {
-        if(history.location.pathname.includes('post')) {
-            history.push('/');
-        }
+}; 
+// START LOGIN
+export const startLogin = ({ target }) => {
+    const provider = setProvider(target.id);
+    return (dispatch) => firebase.auth().signInWithPopup(provider).then((result) => {
+        const uid = result.user.uid;
+        return database.ref(`users/${uid}/displayName`).once('value').then((ref) => {
+            ref ? dispatch(setDisplayName(ref.val())) : dispatch("Anon");
+            
+            if(history.location.pathname.includes('post')) {
+                history.push('/');
+            }
+        });
     });
 };
+
+export const setDisplayName = (displayName) => ({
+    type: 'SET_DISPLAY_NAME',
+    displayName
+})
 
 export const logout = () => ({
     type: 'LOGOUT'

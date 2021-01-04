@@ -1,9 +1,14 @@
 export default (state = {}, action) => {
     switch(action.type) {
+        case 'SET_DISPLAY_NAME':
+            return {
+                ...state,
+                displayName: action.displayName
+            };
         case 'LOGIN':
             return {
-                uid: action.uid,
-                displayName: action.displayName
+                ...state,
+                uid: action.uid
             };
         case 'LOGOUT':
             return {};

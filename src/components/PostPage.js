@@ -17,16 +17,14 @@ export class PostPage extends React.Component {
   componentDidMount = () => {
     if(!!!this.props.post) {
       this.props.startSetSinglePost(undefined, this.props.postId).then(() => {
-        console.log(this.props.post);
         this.setState(() => ({
-          postTitle: this.props.post.postTitle,
-          postBody: this.props.post.postBody,
-          postAuthor: this.props.post.postAuthor,
-          created: this.props.post.created,
-          id: this.props.post.id,
-          postUid: this.props.post.postUid
+          ...this.props.post
         }));
       });
+    } else {
+      this.setState(() => ({
+        ...this.props.post
+      }));
     }
   };
   render() {
