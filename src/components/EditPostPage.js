@@ -18,17 +18,19 @@ export class EditPostPage extends React.Component {
     postUid: ''
   };
   componentDidMount = () => {
-    this.props.startSetSinglePost(this.props.location.state.uid, this.props.postId).then(() => {
-      console.log(this.props.post);
-      this.setState(() => ({
-        postTitle: this.props.post.postTitle,
-        postBody: this.props.post.postBody,
-        postAuthor: this.props.post.postAuthor,
-        created: this.props.post.created,
-        id: this.props.post.id,
-        postUid: this.props.post.postUid
-      }));
-    })
+    if(!!!this.props.post) {
+      this.props.startSetSinglePost(this.props.location.state.uid, this.props.postId).then(() => {
+        console.log(this.props.post);
+        this.setState(() => ({
+          postTitle: this.props.post.postTitle,
+          postBody: this.props.post.postBody,
+          postAuthor: this.props.post.postAuthor,
+          created: this.props.post.created,
+          id: this.props.post.id,
+          postUid: this.props.post.postUid
+        }));
+      });
+    }
   };
   handleTitleChange = ({target}) => {
     this.setState(() => ({
@@ -91,10 +93,13 @@ export class EditPostPage extends React.Component {
   };
 };
 
-const mapStateToProps = (state, props) => ({
-  postId: props.match.params.id,
-  post: state.postList[0]
-});
+const mapStateToProps = (state, props) => {
+  const postId = props.match.params.id
+  return{
+    postId,
+    post: state.postList.find((post) => post.id === postId)
+  }
+};
 
 const mapDispatchToProps = (dispatch) => ({
   startSetSinglePost: (uid, id) => dispatch(startSetSinglePost(uid, id)),
