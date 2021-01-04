@@ -22,7 +22,8 @@ export class FilterPosts extends React.Component {
       const filters = {
         textFilter: this.props.filters.textFilter,
         sortBy: this.props.filters.sortBy,
-        dateFilter: this.props.filters.dateFilter
+        dateFilter: this.props.filters.dateFilter,
+        hasFilters: this.props.filters.hasFilters
       }
       this.setState(() => ({
         ...filters
@@ -39,11 +40,11 @@ export class FilterPosts extends React.Component {
       const filters = {
         textFilter: this.state.textFilter,
         sortBy: target.value,
-        dateFilter: this.state.dateFilter
+        dateFilter: this.state.dateFilter,
+        hasFilters: true
       }
       this.setState(() => ({
-        ...filters,
-        hasFilters: true
+        ...filters
       }));
       
       this.props.setPosts(this.props.postList, filters);
@@ -56,10 +57,10 @@ export class FilterPosts extends React.Component {
         textFilter: this.state.textFilter,
         sortBy: this.state.sortBy,
         dateFilter: target.value,
+        hasFilters: true
       }
       this.setState(() => ({
-        ...filters,
-        hasFilters: true
+        ...filters
       }));
       this.props.startSetPosts(filters);
       this.props.setStoreFilters(filters);
@@ -70,11 +71,11 @@ export class FilterPosts extends React.Component {
       const filters = {
         textFilter: target.value,
         sortBy: this.state.sortBy,
-        dateFilter: this.state.dateFilter
+        dateFilter: this.state.dateFilter,
+        hasFilters: true
       }
       this.setState(() => ({
-        ...filters,
-        hasFilters: true
+        ...filters
       }));
       this.props.startSetPosts(filters);
       this.props.setStoreFilters(filters);
@@ -84,11 +85,11 @@ export class FilterPosts extends React.Component {
       const filters = {
         textFilter: '',
         sortBy: 'date',
-        dateFilter: 'all'
+        dateFilter: 'all',
+        hasFilters: false
       }
       this.setState(() => ({
-        ...filters,
-        hasFilters: false
+        ...filters
       }));
       this.props.startSetPosts(filters);
       this.props.setStoreFilters(filters);
@@ -134,7 +135,7 @@ export class FilterPosts extends React.Component {
                     <div className="input-group__item input-group__item--end ">
                       <button 
                         disabled={!this.state.hasFilters } 
-                        className={ this.state.hasFilters ? "button button--clear" : "button button--clear button--disabled"} 
+                        className={ this.state.hasFilters ? "button button--clear" : "button button--disabled"} 
                         onClick={ this.onClearFilters }>
                           X
                         </button>
