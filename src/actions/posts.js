@@ -76,18 +76,34 @@ export const setPosts = (posts, filters) => ({
   filters
 });
 
-// GET_SINGLE_POSTS
-export const getSinglePost = ({id}) => {
-  return (getState) => {
-    const uid = getState().auth.uid;
-      return database.ref(`users/${uid}/posts/${id}`).once('value').then((ref) => {
-        return {
-          id: ref.key,
-          ...ref.val()
-        };
-      });
+// GET_SINGLE_POST
+export const startSetSinglePost = (uid, id) => {
+  return (dispatch) => {
+      if(!!uid) {
+        return database.ref(`users/${uid}/posts/${id}`).once('value').then((ref) => {
+          const post = {
+            id: ref.key,
+            ...ref.val()
+          };
+          dispatch(setSinglePost(post));
+       });
+      } else {
+        return database.ref(`users/${uid}/posts/${id}`).once('value').then((ref) => {
+          const post = {
+            id: ref.key,
+            ...ref.val()
+          };
+          dispatch(setSinglePost(post));
+       });
+      }
   };
-};
+}
+
+// SET_POSTS
+export const setSinglePost = (post) => ({
+  type: 'SET_SINGLE_POST',
+  post
+});
 
 //START UPDATE_POST
 export const startUpdatePost = (post) => {

@@ -1,31 +1,61 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { startSetSinglePost } from '../actions/posts';
 import PageHeader from './PostHeader';
 
-export const PostPage = (props) => (
-  <div>
-    { (props.post) ? <div>
-      <PageHeader post={ props.post } isAuthor={ false } />
-      <div className="content-container">
-        { 
-          props.post &&
-          <p>{props.post.postBody}</p>
+export class PostPage extends React.Component {
+  state={
+    initiateRemove: false,
+    postTitle: '',
+    postBody: '',
+    postAuthor: '',
+    created: '',
+    id: '',
+    postUid: ''
+  };
+  componentDidMount = () => {
+    this.props.startSetSinglePost(undefined, this.props.postId).then(() => {
+      console.log(this.props.post);
+      this.setState(() => ({
+        postTitle: this.props.post.postTitle,
+        postBody: this.props.post.postBody,
+        postAuthor: this.props.post.postAuthor,
+        created: this.props.post.created,
+        id: this.props.post.id,
+        postUid: this.props.post.postUid
+      }));
+    })
+  };
+  render() {
+    return (
+      <div>
+        { (this.props.post) ? <div>
+          <PageHeader post={ this.props.post } isAuthor={ false } />
+          <div className="content-container">
+            { 
+              this.props.post &&
+              <p>{this.props.post.postBody}</p>
+            }
+          </div>
+        </div>
+        :
+        <div className="content-container">
+          There is no such post.
+        </div>
         }
       </div>
-    </div>
-    :
-    <div className="content-container">
-      There is no such post.
-    </div>
-    }
-  </div>
-);
+    );
+  };
+}''
 
-const mapStateToProps = (state, props) => {
-  const post = state.postList.find((post) => post.id === props.match.params.id);
+const mapStateToProps = (state, props) => ({
+  postId: props.match.params.id,
+  post: state.postList[0]
+});
 
- return { post };
-};
+const mapDispatchToProps = (dispatch) => ({
+  startSetSinglePost: (uid, id) => dispatch(startSetSinglePost(uid, id))
+});
 
-export default connect(mapStateToProps)(PostPage);
+export default connect(mapStateToProps, mapDispatchToProps)(PostPage);

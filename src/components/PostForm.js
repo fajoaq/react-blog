@@ -1,12 +1,9 @@
 import React from 'react';
 
 export class PostForm extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-    componentDidMount() {
+/*     componentDidMount() {
         this.props.setPostData();
-    }
+    } */
     render() {
         return (
             <form className="form">

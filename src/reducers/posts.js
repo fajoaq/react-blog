@@ -15,6 +15,10 @@ export default (state = [], action) => {
             });
         case 'SET_POSTS':
             return postsSelector(action.posts, action.filters)
+        case 'SET_SINGLE_POST':
+            return [ 
+                action.post
+            ];
         case 'UPDATE_POST':
             let updateList = state.filter((post) => post.id !== action.post.id );
             return [

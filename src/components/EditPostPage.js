@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 
-import { startRemovePost, startUpdatePost } from '../actions/posts';
+import { startSetSinglePost, startRemovePost, startUpdatePost } from '../actions/posts';
 import PageHeader from './PostHeader';
 import PostModal from './PostModal'
 import PostForm from './PostForm';
@@ -17,15 +17,18 @@ export class EditPostPage extends React.Component {
     id: '',
     postUid: ''
   };
-  setPostData = () => {
-    this.setState(() => ({
-      postTitle: this.props.post.postTitle,
-      postBody: this.props.post.postBody,
-      postAuthor: this.props.post.postAuthor,
-      created: this.props.post.created,
-      id: this.props.post.id,
-      postUid: this.props.post.postUid
-    }));
+  componentDidMount = () => {
+    this.props.startSetSinglePost(this.props.location.state.uid, this.props.postId).then(() => {
+      console.log(this.props.post);
+      this.setState(() => ({
+        postTitle: this.props.post.postTitle,
+        postBody: this.props.post.postBody,
+        postAuthor: this.props.post.postAuthor,
+        created: this.props.post.created,
+        id: this.props.post.id,
+        postUid: this.props.post.postUid
+      }));
+    })
   };
   handleTitleChange = ({target}) => {
     this.setState(() => ({
@@ -61,7 +64,6 @@ export class EditPostPage extends React.Component {
         <PageHeader post={ this.props.post } isAuthor={ true }/>
         <div className="content-container">
           <PostForm
-              setPostData={ this.setPostData }
               postTitle={ this.state.postTitle }
               postBody={ this.state.postBody }
               handleTitleChange={ this.handleTitleChange }
@@ -90,10 +92,12 @@ export class EditPostPage extends React.Component {
 };
 
 const mapStateToProps = (state, props) => ({
-  post: state.postList.find((post) => post.id === props.match.params.id)
+  postId: props.match.params.id,
+  post: state.postList[0]
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  startSetSinglePost: (uid, id) => dispatch(startSetSinglePost(uid, id)),
   startUpdatePost: (post) => dispatch(startUpdatePost(post)),
   startRemovePost: (id) => dispatch(startRemovePost(id))
 });
