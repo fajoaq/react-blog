@@ -60,7 +60,6 @@ export const startSetPosts = (filters) => {
     const uid = getState().auth.uid;
       return database.ref(`/posts`).once('value').then((snapshot) => {
       const userPosts = [];
-      console.log(snapshot.val());
       snapshot.forEach((post) => {
         userPosts.push({
           id: post.key,

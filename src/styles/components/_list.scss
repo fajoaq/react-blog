@@ -59,6 +59,9 @@
     word-break: break-all;
 }
 
+.list-item__subtitle--container {
+    width: 15rem;
+}
 .list-item__subtitle {
     color: $grey;
     font-size: $font-size-small;

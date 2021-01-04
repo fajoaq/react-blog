@@ -5,10 +5,10 @@ import PostsReducer from '../reducers/posts'
 import filtersReducer from '../reducers/filters';
 
 //WE ENABLE ACTION TRACING- DISABLE WHEN NOT TESTING FOR PERFORMANCE
-/* const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; */
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ &&
-  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true, traceLimit: 25 }) || compose;
+/* const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ &&
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({ trace: true, traceLimit: 25 }) || compose; */
 
 export default () => {
   const store = createStore(

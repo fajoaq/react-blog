@@ -77,9 +77,11 @@ export class EditPostPage extends React.Component {
           handleClearRemove={ this.handleClearRemove }
           onRemove={ this.handleDeletePost }
         />
-        <div className="button-group">
-          <button className="button" onClick={ this.handleSavepost }>Save Post</button>
-          <button className="button" onClick={ this.onInitiateRemove }>Delete Post</button>
+        <div className="content-container">
+          <div className="button-group">
+            <button className="button" onClick={ this.handleSavepost }>Save Post</button>
+            <button className="button" onClick={ this.onInitiateRemove }>Delete Post</button>
+          </div>
         </div>
       </div>
       :

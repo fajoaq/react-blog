@@ -57,8 +57,8 @@ module.exports = (env) => {
       })
     ],
     /* WE CHANGED DEVTOOL TO ALLOW ACTION TRACTING- PUT BACK FOR PERFORMANCE  */
-    /* devtool: isProduction ? 'source-map' : 'inline-source-map', */
-    devtool: 'source-map',
+    devtool: isProduction ? 'source-map' : 'inline-source-map',
+    /* devtool: 'source-map', */
     devServer: {
       contentBase: path.join(__dirname, 'public'),
       historyApiFallback: true,

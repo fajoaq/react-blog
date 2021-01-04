@@ -10,7 +10,7 @@ export const PostListItem = ({ post }) => (
         <div>
             <h4 className="list-item__title">{`${post.postTitle}`}</h4>
         </div>
-        <div>
+        <div className="list-item__subtitle--container">
             <span className="list-item__subtitle">{` | by: ${post.postAuthor}` }</span>
         </div>
         <div className="list-item__data list-item__subtitle">
