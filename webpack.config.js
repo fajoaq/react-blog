@@ -56,7 +56,9 @@ module.exports = (env) => {
         'process.env.FIREBASE_APP_ID': JSON.stringify(process.env.FIREBASE_APP_ID),
       })
     ],
-    devtool: isProduction ? 'source-map' : 'inline-source-map',
+    /* WE CHANGED DEVTOOL TO ALLOW ACTION TRACTING- PUT BACK FOR PERFORMANCE  */
+    /* devtool: isProduction ? 'source-map' : 'inline-source-map', */
+    devtool: 'source-map',
     devServer: {
       contentBase: path.join(__dirname, 'public'),
       historyApiFallback: true,

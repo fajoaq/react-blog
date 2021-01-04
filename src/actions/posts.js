@@ -48,7 +48,8 @@ export const removePost = ({ id } = {}) => ({
 });
 
 //START SET_POSTS
-export const startSetPosts = () => {
+export const startSetPosts = (filters) => {
+  console.log('startSetPosts');
   return (dispatch, getState) => {
     const uid = getState().auth.uid;
       return database.ref(`users/`).once('value').then((snapshot) => {
@@ -63,15 +64,16 @@ export const startSetPosts = () => {
           });
         });
       });
-      dispatch(setPosts(userPosts));
+      dispatch(setPosts(userPosts, filters));
     });
   };
 };
   
 // SET_POSTS
-export const setPosts = (posts) => ({
+export const setPosts = (posts, filters) => ({
   type: 'SET_POSTS',
-  posts
+  posts,
+  filters
 });
 
 // GET_SINGLE_POSTS

@@ -3,17 +3,25 @@ import moment from 'moment';
 // Filters Reducer
 
 const filtersReducerDefaultState = {
-  text: '',
+  textFilter: '',
   sortBy: 'date',
   dateFilter: 'all',
 };
 
 export default (state = filtersReducerDefaultState, action) => {
-  switch (action.type) {
+  switch(action.type) {
+    case 'SET_STORE_FILTERS':
+      return {
+        ...action.filters
+      }
+    default:
+      return state;
+  };
+/*   switch (action.type) {
     case 'SET_TEXT_FILTER':
       return {
         ...state,
-        text: action.text
+        textFilter: action.textFilter
       };
     case 'SORT_BY_DATE':
       return {
@@ -37,5 +45,5 @@ export default (state = filtersReducerDefaultState, action) => {
       };
     default:
       return state;
-  }
+  } */
 };

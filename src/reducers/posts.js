@@ -1,5 +1,8 @@
 
+import postsSelector from '../selectors/posts';
+
 export default (state = [], action) => {
+    console.log(action.type);
     switch(action.type) {
         case 'ADD_POST':
             return [
@@ -11,7 +14,7 @@ export default (state = [], action) => {
                 return post.id !== action.id;
             });
         case 'SET_POSTS':
-            return action.posts;
+            return postsSelector(action.posts, action.filters)
         case 'UPDATE_POST':
             let updateList = state.filter((post) => post.id !== action.post.id );
             return [
