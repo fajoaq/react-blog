@@ -33,7 +33,20 @@
     pointer-events: none;
 }
 
+.button--clear {
+
+}
+
+.button--disabled {
+    background: $off-white;
+}
+
 .button--flex-end {
     display: flex;
     justify-content: flex-end;
+}
+
+.button--flex-center {
+    display: flex;
+    justify-content: center;
 }

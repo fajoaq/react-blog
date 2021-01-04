@@ -15,7 +15,8 @@ export class FilterPosts extends React.Component {
     state = {
       textFilter: '',
       sortBy: '',
-      dateFilter: ''
+      dateFilter: '',
+      hasFilters: false
     }
     componentDidMount() {
       const filters = {
@@ -41,7 +42,8 @@ export class FilterPosts extends React.Component {
         dateFilter: this.state.dateFilter
       }
       this.setState(() => ({
-        ...filters
+        ...filters,
+        hasFilters: true
       }));
       
       this.props.setPosts(this.props.postList, filters);
@@ -53,10 +55,11 @@ export class FilterPosts extends React.Component {
       const filters = {
         textFilter: this.state.textFilter,
         sortBy: this.state.sortBy,
-        dateFilter: target.value
+        dateFilter: target.value,
       }
       this.setState(() => ({
-        ...filters
+        ...filters,
+        hasFilters: true
       }));
       this.props.startSetPosts(filters);
       this.props.setStoreFilters(filters);
@@ -70,7 +73,8 @@ export class FilterPosts extends React.Component {
         dateFilter: this.state.dateFilter
       }
       this.setState(() => ({
-        ...filters
+        ...filters,
+        hasFilters: true
       }));
       this.props.startSetPosts(filters);
       this.props.setStoreFilters(filters);
@@ -83,7 +87,8 @@ export class FilterPosts extends React.Component {
         dateFilter: 'all'
       }
       this.setState(() => ({
-        ...filters
+        ...filters,
+        hasFilters: false
       }));
       this.props.startSetPosts(filters);
       this.props.setStoreFilters(filters);
@@ -94,7 +99,7 @@ export class FilterPosts extends React.Component {
               { this.props.filters ? 
                 <div className="content-container">
                   <div className="input-group">
-                    <div className="input-group__item">
+                    <div className="input-group__item input-group__item--grow">
                       <input
                       className="text-input"
                       placeholder="Search posts"
@@ -126,8 +131,13 @@ export class FilterPosts extends React.Component {
                             <option value="1-year">This year</option>
                         </select>
                     </div>
-                    <div className="input-group__item">
-                      <button onClick={ this.onClearFilters }className="clear">X</button>
+                    <div className="input-group__item input-group__item--end ">
+                      <button 
+                        disabled={!this.state.hasFilters } 
+                        className={ this.state.hasFilters ? "button button--clear" : "button button--clear button--disabled"} 
+                        onClick={ this.onClearFilters }>
+                          X
+                        </button>
                     </div>
                   </div>
                 </div>

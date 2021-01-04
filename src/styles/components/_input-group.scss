@@ -16,3 +16,18 @@
         margin: 0 $s-size 0 0;
     }
 }
+
+.input-group__item--grow {
+    flex-grow: 1;
+}
+
+.input-group__item--center {
+    display: flex;
+    justify-content: center;
+}
+
+.input-group__item--end {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 0;
+}
