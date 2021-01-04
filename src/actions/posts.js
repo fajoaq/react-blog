@@ -13,7 +13,7 @@ export const startAddPost = (postData = {}) => {
         } = postData;
   
       const post = { postTitle, postBody, created, postAuthor, postUid };
-      return database.ref(`users/${uid}/posts`).push(post).then((ref) => {
+      return database.ref(`/posts`).push(post).then((ref) => {
         dispatch(addPost({
           id: ref.key,
           ...post
@@ -32,17 +32,23 @@ export const addPost = (post) => ({
 });
 
 //START REMOVE_EXPENSE
-export const startRemovePost = ({ id } = {}) => {
+export const startRemovePost = ( {id, postUid} ) => {
+  console.log(id, postUid);
   return (dispatch, getState) => {
     const uid = getState().auth.uid;
-    return database.ref(`users/${uid}/posts/${id}`).remove().then(() => {
-      dispatch(removePost({ id }));
-    });
+    console.log(uid, postUid);
+    if(postUid === uid) {
+      return database.ref(`/posts/${id}`).remove().then(() => {
+        dispatch(removePost( id ));
+      });
+    } else {
+      console.log('POST POSTUID DOES NOT MATCH UID');
+    }
   };
 };
 
 // REMOVE_EXPENSE
-export const removePost = ({ id } = {}) => ({
+export const removePost = ( id = 0 ) => ({
   type: 'REMOVE_POST',
   id
 });
@@ -52,16 +58,13 @@ export const startSetPosts = (filters) => {
   console.log('startSetPosts');
   return (dispatch, getState) => {
     const uid = getState().auth.uid;
-      return database.ref(`users/`).once('value').then((snapshot) => {
+      return database.ref(`/posts`).once('value').then((snapshot) => {
       const userPosts = [];
-      snapshot.forEach((user) => {
-        user.forEach((posts) => {
-          posts.forEach((post) => {
-              userPosts.push({
-                id: post.key,
-                ...post.val()
-            });
-          });
+      console.log(snapshot.val());
+      snapshot.forEach((post) => {
+        userPosts.push({
+          id: post.key,
+          ...post.val()
         });
       });
       dispatch(setPosts(userPosts, filters));
@@ -80,7 +83,7 @@ export const setPosts = (posts, filters) => ({
 export const startSetSinglePost = (uid, id) => {
   return (dispatch) => {
       if(!!uid) {
-        return database.ref(`users/${uid}/posts/${id}`).once('value').then((ref) => {
+        return database.ref(`/posts/${id}`).once('value').then((ref) => {
           const post = {
             id: ref.key,
             ...ref.val()
@@ -88,7 +91,7 @@ export const startSetSinglePost = (uid, id) => {
           dispatch(setSinglePost(post));
        });
       } else {
-        return database.ref(`users/${uid}/posts/${id}`).once('value').then((ref) => {
+        return database.ref(`/posts/${id}`).once('value').then((ref) => {
           const post = {
             id: ref.key,
             ...ref.val()
@@ -109,9 +112,13 @@ export const setSinglePost = (post) => ({
 export const startUpdatePost = (post) => {
   return (dispatch, getState) => {
     const uid = getState().auth.uid;
-      return database.ref(`users/${uid}/posts/${post.id}`).update({...post}).then(() => {
-      dispatch(updatePost(post));
-    });
+    if(post.postUid === uid) {
+      return database.ref(`/posts/${post.id}`).update({...post}).then(() => {
+        dispatch(updatePost(post));
+      });
+    } else {
+      console.log('POST POSTUID DOES NOT MATCH UID');
+    }
   };
 };
   

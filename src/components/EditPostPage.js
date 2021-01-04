@@ -50,7 +50,8 @@ export class EditPostPage extends React.Component {
     this.setState(() => ({ initiateRemove: true }));
   };
   handleDeletePost = () => {
-    this.props.startRemovePost({id: this.props.post.id }).then(() => {
+
+    this.props.startRemovePost({id: this.state.id, postUid: this.state.postUid }).then(() => {
       this.props.history.push('/');
     });
   };
@@ -102,7 +103,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch) => ({
   startSetSinglePost: (uid, id) => dispatch(startSetSinglePost(uid, id)),
   startUpdatePost: (post) => dispatch(startUpdatePost(post)),
-  startRemovePost: (id) => dispatch(startRemovePost(id))
+  startRemovePost: (id, postUid) => dispatch(startRemovePost(id, postUid))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditPostPage);

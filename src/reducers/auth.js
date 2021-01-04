@@ -1,4 +1,9 @@
-export default (state = {}, action) => {
+const defaultAuthState = {
+    uid: undefined,
+    displayName: 'Anon'
+};
+
+export default (state = defaultAuthState, action) => {
     switch(action.type) {
         case 'SET_DISPLAY_NAME':
             return {
