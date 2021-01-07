@@ -91,7 +91,7 @@ export class EditPostPage extends React.Component {
       <div>
         { (!!this.state.postUid) ? 
           <div>
-            <PostHeader post={ this.props.post } isAuthor={ true }/>
+            <PostHeader post={ this.props.post } isAuthor={ true } />
             <div className="content-container">
               <PostForm
                   postTitle={ this.state.postTitle }

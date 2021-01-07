@@ -6,13 +6,21 @@ import LoadingPage from './LoadingPage';
 import Button  from './Button';
 import { AiOutlineDoubleLeft } from 'react-icons/ai';
 import { toggleModal } from '../actions/modal';
+import { history } from '../routers/AppRouter';
+
+const backButton = () => {
+    history.push('/dashboard');
+};
 
 export const PostHeader = (props) => (
     <div>
     { (!!props.post) ?
         <div className="page-header">
-            <Button className="page-header__back-button" onClick={ props.toggleModal }>
-                <AiOutlineDoubleLeft className="page-header__back-image"/>
+
+            <Button 
+                className="page-header__back-button" 
+                onClick={ props.isAuthor ? props.toggleModal : backButton }>
+                    <AiOutlineDoubleLeft className="page-header__back-image"/>
             </Button>
             <div className="container--flex container--flex-center container--margin-left ">
                 <div>
