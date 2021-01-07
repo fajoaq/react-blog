@@ -1,30 +1,32 @@
 import database from '../firebase/firebase';
 
 export const startAddPost = (postData = {}) => {
-    return (dispatch, getState) => {
-      const uid = getState().auth.uid;
-      const userName = getState().auth.displayName
-      const {
-        postTitle = '',
-        postBody = '',
-        created = '',
-        postAuthor = userName,
-        postUid = uid
-        } = postData;
-  
-      const post = { postTitle, postBody, created, postAuthor, postUid };
-      return database.ref(`/posts`).push(post).then((ref) => {
-        dispatch(addPost({
-          id: ref.key,
-          ...post
-        }));
-        return {
-          id: ref.key, 
-          postUid: post.postUid
-        };
-      });
-    };
+  delete postData.initiateRemove;
+  return (dispatch, getState) => {
+    const uid = getState().auth.uid;
+    const userName = getState().auth.displayName
+    const {
+      postTitle = '',
+      postBody = '',
+      created = '',
+      postAuthor = userName,
+      postUid = uid,
+      isPublished = false
+      } = postData;
+
+    const post = { postTitle, postBody, created, postAuthor, postUid, isPublished };
+    return database.ref(`/posts`).push(post).then((ref) => {
+      dispatch(addPost({
+        id: ref.key,
+        ...post
+      }));
+      return {
+        id: ref.key, 
+        postUid: post.postUid
+      };
+    });
   };
+};
 
 export const addPost = (post) => ({
     type: 'ADD_POST',
@@ -95,7 +97,9 @@ export const startSetSinglePost = (uid, id) => {
             id: ref.key,
             ...ref.val()
           };
+          console.log(post);
           dispatch(setSinglePost(post));
+          return post;
        });
       }
   };

@@ -1,6 +1,7 @@
 .button-group {
     display: flex;
     justify-content: space-around;
+    align-items: center;
 }
 
 .button {
@@ -18,6 +19,7 @@
 
 .button--link {
     background: none;
+    border: none;
 }
 
 .button--secondary {
@@ -25,13 +27,18 @@
 }
 
 .button--login {
+    display: flex;
     background: darken($blue, 20%);
-    border-radius: 49%;
+    border-radius: 100%;
     font-size: $font-size-xtra;
     line-height: .8;
 }
 .button--login > * {
     pointer-events: none;
+}
+.button--add-post {
+    width: 5rem;
+    font-size: $font-size-xtra;
 }
 
 .button--disabled {

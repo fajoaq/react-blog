@@ -3,32 +3,43 @@ import { connect } from 'react-redux';
 
 
 import { startSetSinglePost, startRemovePost, startUpdatePost } from '../actions/posts';
-import PageHeader from './PostHeader';
-import PostModal from './PostModal'
+import { configureModal, toggleModal } from '../actions/modal';
+import PostHeader from './PostHeader';
 import PostForm from './PostForm';
+import Button from './Button';
 
 export class EditPostPage extends React.Component {
-  state={
-    initiateRemove: false,
-    postTitle: '',
-    postBody: '',
-    postAuthor: '',
-    created: '',
-    id: '',
-    postUid: ''
+  constructor(props) {
+    super(props)
+    this.handleConfigureModal = this.handleConfigureModal.bind(this);
+    this.handleSavepost = this.handleSavepost.bind(this);
+    this.handleDeletePost = this.handleDeletePost.bind(this);
+    this.state = {
+      postTitle: '',
+      postBody: '',
+      postAuthor: '',
+      created: '',
+      id: '',
+      postUid: '',
+      isPublished: false
+    };
   };
   componentDidMount = () => {
     if(!!!this.props.post) {
       this.props.startSetSinglePost(this.props.location.state.uid, this.props.postId).then(() => {
-        this.setState(() => ({
+        this.setState((previousState) => ({
+          ...previousState,
           ...this.props.post
         }));
       });
     } else {
-      this.setState(() => ({
+      this.setState((previousState) => ({
+        ...previousState,
         ...this.props.post
-      }));
+      }));   
     }
+
+    this.handleConfigureModal();
   };
   handleTitleChange = ({target}) => {
     this.setState(() => ({
@@ -41,55 +52,72 @@ export class EditPostPage extends React.Component {
     }));
   };
   handleSavepost = () => {
-    this.props.startUpdatePost(this.state).then(() => {
+    const postData = {
+      ...this.state,
+      isPublished: true
+    }
+    this.props.startUpdatePost(postData).then(() => {
       this.props.history.push('/');
     });
   };
-  //display modal
-  onInitiateRemove = () => {
-    this.setState(() => ({ initiateRemove: true }));
+  handleConfigureModal = () => {
+    this.props.configureModal({
+      modalTitle: "Remove post?",
+      contentLabel: this.props.post.postTitle,
+      modalButtons: [
+        {
+          text: 'Cancel',
+          className: 'button',
+          onClick: this.props.toggleModal
+        },
+        {
+          text: 'Confirm',
+          className: 'button',
+          onClick: this.handleDeletePost
+        }
+      ]
+      }
+    );
   };
   handleDeletePost = () => {
-
     this.props.startRemovePost({id: this.state.id, postUid: this.state.postUid }).then(() => {
+      this.props.toggleModal();
       this.props.history.push('/');
     });
-  };
-  handleClearRemove = () => {
-    this.setState(() => ({ initiateRemove: false }));
   };
   render() {
     return (
+      
       <div>
-      { (this.props.post) ? <div>
-        <PageHeader post={ this.props.post } isAuthor={ true }/>
-        <div className="content-container">
-          <PostForm
-              postTitle={ this.state.postTitle }
-              postBody={ this.state.postBody }
-              handleTitleChange={ this.handleTitleChange }
-              handleBodyTextChange={ this.handleBodyTextChange }
-          />
-        </div>
-        <PostModal
-          contentLabel={ this.state.postTitle }
-          initiateRemove={ this.state.initiateRemove }
-          handleClearRemove={ this.handleClearRemove }
-          onRemove={ this.handleDeletePost }
-        />
-        <div className="content-container">
-          <div className="button-group">
-            <button className="button" onClick={ this.handleSavepost }>Save Post</button>
-            <button className="button" onClick={ this.onInitiateRemove }>Delete Post</button>
+        { (!!this.state.postUid) ? 
+          <div>
+            <PostHeader post={ this.props.post } isAuthor={ true }/>
+            <div className="content-container">
+              <PostForm
+                  postTitle={ this.state.postTitle }
+                  postBody={ this.state.postBody }
+                  handleTitleChange={ this.handleTitleChange }
+                  handleBodyTextChange={ this.handleBodyTextChange }
+              />
+            </div>
+            
+            <div className="content-container">
+              <div className="button-group">
+                <Button onClick={ this.handleSavepost } className="button">
+                  Save Post
+                </Button>
+                <Button onClick={ this.props.toggleModal } className="button">
+                  Delete Post
+                </Button>
+              </div>
+            </div>
           </div>
-        </div>
+          :
+          <div className="content-container">
+            <p className="page-header__error-message">There is no such post.</p>
+          </div>
+        }
       </div>
-      :
-      <div className="content-container">
-        There is no such post.
-      </div>
-    }
-  </div>
     );
   };
 };
@@ -103,6 +131,8 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
+  configureModal: (parameters) => dispatch(configureModal(parameters)),
+  toggleModal: () => dispatch(toggleModal()),
   startSetSinglePost: (uid, id) => dispatch(startSetSinglePost(uid, id)),
   startUpdatePost: (post) => dispatch(startUpdatePost(post)),
   startRemovePost: (id, postUid) => dispatch(startRemovePost(id, postUid))

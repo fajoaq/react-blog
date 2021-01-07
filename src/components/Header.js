@@ -1,26 +1,81 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { history } from '../routers/AppRouter';
+import { connect } from 'react-redux';
 
-
+import { configureModal, toggleModal } from '../actions/modal';
+import PostModal from './PostModal';
 import Login from './Login';
 import Logout from './Logout';
+import AddPost from './AddPost';
+import Button from './Button';
 
-export const Header = ({ isAuthenticated }) => (
-  <header className="header">
-    <div className="content-container">
-      <div className="header__content">
-        <Link className="header__title" to="/">
-          <h1>React Blog</h1>
-        </Link>
-        { isAuthenticated ? 
-          <Logout />
-          :
-          <Login />
-        }
-      </div>
-    </div>
-  </header>
-);
+export class Header extends React.Component {
+  state = {
+    initiateModal: this.props.initiateModal,
+    modalTitle: this.props.modalTitle,
+    contentLabel: this.props.contentLabel,
+    modalButtons: this.props.modalButtons
+  }
+  componentDidUpdate = () => {
+    if (this.props.initiateModal !== this.state.initiateModal) {
+      this.setState(() => ({
+        initiateModal: this.props.initiateModal,
+        modalTitle: this.props.modalTitle,
+        contentLabel: this.props.contentLabel,
+        modalButtons: this.props.modalButtons
+      }));
+    }
+  };
+  handleHomeButton = () => {
+    this.props.toggleModal();
+  };
+  render() {
+    return (
+      <header className="header">
+        <PostModal
+          modalTitle={ this.state.modalTitle }
+          contentLabel={ this.state.contentLabel }
+          modalButtons={ this.state.modalButtons }
+          initiateModal={ this.state.initiateModal }
+        >
+        </PostModal>
 
+        <div className="content-container">
+          <div className="header__content">
+            <Button className="header__title button--link" onClick={ this.handleHomeButton }>
+              <h1>React Blog</h1>
+            </Button>
+            { this.props.isAuthenticated ? 
+              <div>
+                { history.location.pathname === '/dashboard' ?
+                  <div className="button-group">
+                    <AddPost />
+                    <Logout />
+                  </div>
+                :
+                  <Logout />
+                }
+              </div>
+              :
+              <Login />
+            }
+          </div>
+        </div>
+      </header>
+    );
+  };
+};
 
-export default Header;
+const mapStateToProps = (state, props) => ({
+    modalTitle: state.modal.modalTitle,
+    contentLabel: state.modal.contentLabel,
+    modalButtons: state.modal.modalButtons,
+    initiateModal: state.modal.initiateModal
+});
+
+const mapDistpatchToProps = (dispatch) => ({
+  configureModal: (parameters) => dispatch(configureModal(parameters)),
+  toggleModal: () => dispatch(toggleModal())
+});
+
+export default connect(mapStateToProps, mapDistpatchToProps)(Header);

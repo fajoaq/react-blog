@@ -2,12 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import LoadingPage from './LoadingPage';
-import { 
-    setTextFilter,  
-    sortByDate, 
-    sortByAuthor, 
-    sortByTitle, 
-    setDateFilter } from '../actions/filters';
 import { setPosts, startSetPosts } from '../actions/posts';
 import { setStoreFilters } from '../actions/filters';
 

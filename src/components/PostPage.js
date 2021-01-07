@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { startSetSinglePost } from '../actions/posts';
-import PageHeader from './PostHeader';
+import PostHeader from './PostHeader';
 
 export class PostPage extends React.Component {
   state={
@@ -12,7 +12,8 @@ export class PostPage extends React.Component {
     postAuthor: '',
     created: '',
     id: '',
-    postUid: ''
+    postUid: '',
+    isPublished: false
   };
   componentDidMount = () => {
     if(!!!this.props.post) {
@@ -30,8 +31,8 @@ export class PostPage extends React.Component {
   render() {
     return (
       <div>
-        { (this.props.post) ? <div>
-          <PageHeader post={ this.props.post } isAuthor={ false } />
+        { (!!this.state.postUid) ? <div>
+          <PostHeader post={ this.props.post } isAuthor={ false } />
           <div className="content-container">
             { 
               this.props.post &&
@@ -41,7 +42,7 @@ export class PostPage extends React.Component {
         </div>
         :
         <div className="content-container">
-          There is no such post.
+          <p className="page-header__error-message">There is no such post.</p>
         </div>
         }
       </div>

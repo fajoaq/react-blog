@@ -6,16 +6,14 @@ import { AiFillGithub } from 'react-icons/ai';
 import { FcGoogle } from 'react-icons/fc';
 
 export const Login = (props) => (
-    <div className="login__container">
-        <div className="button-group">
+    <div className="login__container button-group">
         <button id="googleLogin" className="button button--login" onClick={ props.startLogin }>
             <FcGoogle />
         </button>
         <button id="gitHubLogin" className="button button--login" onClick={ props.startLogin }>
             <AiFillGithub />
         </button>
-        </div>  
-    </div>
+    </div>  
 );
 
 

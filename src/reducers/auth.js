@@ -1,6 +1,8 @@
+import { firebase } from '../firebase/firebase';
+
 const defaultAuthState = {
     uid: undefined,
-    displayName: 'Anon'
+    displayName: "Anon"
 };
 
 export default (state = defaultAuthState, action) => {
@@ -12,7 +14,7 @@ export default (state = defaultAuthState, action) => {
             };
         case 'LOGIN':
             return {
-                ...state,
+                displayName: firebase.auth().currentUser.displayName,
                 uid: action.uid
             };
         case 'LOGOUT':

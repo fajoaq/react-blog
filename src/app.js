@@ -14,7 +14,7 @@ import './styles/styles.scss';
 import 'react-dates/lib/css/_datepicker.css';
 
 const store = configureStore();
-  
+
 const jsx = (
   <Provider store={store}>
     <AppRouter />
@@ -30,7 +30,7 @@ const renderApp = () => {
 
 ReactDOM.render(<LoadingPage />, document.getElementById('app'));
 
-//Redirect user
+//Redirect user on login
 firebase.auth().onAuthStateChanged((user) => {
   
   if(user) {

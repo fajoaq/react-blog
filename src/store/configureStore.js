@@ -3,6 +3,7 @@ import thunk from 'redux-thunk';
 import authReducer from '../reducers/auth';
 import PostsReducer from '../reducers/posts'
 import filtersReducer from '../reducers/filters';
+import modalReducer from '../reducers/modal';
 
 //WE ENABLE ACTION TRACING- DISABLE WHEN NOT TESTING FOR PERFORMANCE
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -15,25 +16,11 @@ export default () => {
     combineReducers({
       auth: authReducer,
       postList: PostsReducer,
-      filters: filtersReducer
+      filters: filtersReducer,
+      modal: modalReducer
     }),
     composeEnhancers(applyMiddleware(thunk))
   );
 
   return store;
 };
-
-
-/* export default () => {
-  const store = createStore(
-    combineReducers({
-      auth: authReducer,
-      postList: PostsReducer,
-      filters: filtersReducer
-    }),
-    composeEnhancers(applyMiddleware(thunk))
-  );
-
-  return store;
-};
- */

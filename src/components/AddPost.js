@@ -15,7 +15,6 @@ export class AddPost extends React.Component {
         };
     
         this.props.startAddPost(post).then((ref) => {
-            console.log(ref);
             history.push({
                 pathname: `/edit/${ref.id}`, 
                 state: {uid: ref.postUid}
@@ -26,9 +25,9 @@ export class AddPost extends React.Component {
 
     render() {
         return (
-            <div className="content-container">
-                <button onClick={ this.onAddPost }><AiFillPlusCircle /></button>
-            </div>
+            <button className="button button--link button--add-post" onClick={ this.onAddPost }>
+                <AiFillPlusCircle />
+            </button>
         );
     };
 }

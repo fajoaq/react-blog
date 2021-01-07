@@ -3,3 +3,25 @@
     padding: 0 $m-size;
     max-width: 80rem;
 }
+
+.container--margin-left {
+    margin-left: $m-size;
+}
+.container--selfcenter {
+    @media (min-width: $desktop-breakpoint) {
+        justify-self: center;
+    }
+}
+.container--flex {
+    @media (min-width: $desktop-breakpoint) {
+        display: flex;
+    }
+}
+.container--flex-center {
+    @media (min-width: $desktop-breakpoint) {
+        justify-content: center;
+    }
+}
+.container--flex-col {
+    flex-direction: column;
+}

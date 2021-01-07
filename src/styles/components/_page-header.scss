@@ -1,7 +1,14 @@
 .page-header {
+    display: flex;
     background: $off-white;
     padding: $l-size 0;
     margin-bottom: $l-size;
+
+    @media (min-width: $desktop-breakpoint) {
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-columns: minmax(10vmin, 15rem) 3fr 1fr;
+    }
 }
 .page-header__title {
     margin: 0;
@@ -30,6 +37,33 @@
     font-style: normal;
 }
 
-.page-header__actions {
-    margin-top: $m-size;
+.page-header__back-button {
+    display: flex;
+    align-items: center;
+    width: 10vmin;
+    border: none;
+    border-top-right-radius: .9rem;
+    border-bottom-right-radius: .9rem;
+    background: darken($off-white, 5%);
+    transition: background .3s ease;
+
+    &:hover {
+        background: darken($off-white, 10%);
+    }
+}
+.page-header__back-image {
+    color: white;
+    font-weight: 100;
+    font-size: 10vmin;
+}
+
+.page-header__error-message {
+    color: white;
+    opacity: 0;
+    animation: 'error-visible' 2s ease forwards;
+}
+
+@keyframes error-visible {
+    from {opacity: 0; color:white;}
+    to {opacity: 1; color: $dark-grey;}
 }

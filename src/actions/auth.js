@@ -20,14 +20,11 @@ const setProvider = (id) => {
 export const startLogin = ({ target }) => {
     const provider = setProvider(target.id);
     return (dispatch) => firebase.auth().signInWithPopup(provider).then((result) => {
-        const uid = result.user.uid;
-        return database.ref(`users/${uid}/displayName`).once('value').then((ref) => {
-            ref ? dispatch(setDisplayName(ref.val())) : dispatch("Anon");
-            
-            if(history.location.pathname.includes('post')) {
-                history.push('/');
-            }
-        });
+/*         console.log(result.user.displayName);
+        dispatch(setDisplayName(result.user.displayName));   */          
+        if(history.location.pathname.includes('post')) {
+            history.push('/');
+        }
     });
 };
 
