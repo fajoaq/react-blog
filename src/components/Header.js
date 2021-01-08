@@ -26,8 +26,26 @@ export class Header extends React.Component {
       }));
     }
   };
-  handleHomeButton = () => {
+  handleAuthHomeButton = () => {
+    this.props.configureModal({
+      modalTitle: "Save changes?",
+      modalButtons: [
+          {
+            text: 'Save Draft',
+            className: 'button',
+            onClick: this.props.toggleModal
+          },
+          {
+            text: 'Delete',
+            className: 'button',
+            onClick: this.props.toggleModal
+          }
+        ]
+    });
     this.props.toggleModal();
+  };
+  handleHomeButton = () => {
+    history.push('/');
   };
   render() {
     return (
@@ -42,8 +60,10 @@ export class Header extends React.Component {
 
         <div className="content-container">
           <div className="header__content">
-            <Button className="header__title button--link" onClick={ this.handleHomeButton }>
-              <h1>React Blog</h1>
+            <Button 
+              className="header__title button--link" 
+              onClick={ this.props.isAuthor ? this.handleAuthHomeButton : this.handleHomeButton }>
+                <h1>React Blog</h1>
             </Button>
             { this.props.isAuthenticated ? 
               <div>
@@ -67,10 +87,10 @@ export class Header extends React.Component {
 };
 
 const mapStateToProps = (state, props) => ({
-    modalTitle: state.modal.modalTitle,
-    contentLabel: state.modal.contentLabel,
-    modalButtons: state.modal.modalButtons,
-    initiateModal: state.modal.initiateModal
+  modalTitle: state.modal.modalTitle,
+  contentLabel: state.modal.contentLabel,
+  modalButtons: state.modal.modalButtons,
+  initiateModal: state.modal.initiateModal
 });
 
 const mapDistpatchToProps = (dispatch) => ({
