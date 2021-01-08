@@ -7,8 +7,15 @@ export class Button extends React.Component {
     }
     handleOnClick = () => {
         /* this.props.onClick(this.callback); */
-        this.props.onClick();
-    }
+
+        if(typeof this.props.onClick === 'function') {
+            this.props.onClick();
+        } else if(typeof this.props.onClick === 'object') {
+            this.props.onClick.forEach((func) => {
+                func();
+            });
+        }
+    };
     render() {
         return  <button className={ this.props.className } onClick={ this.handleOnClick }>
                     { this.props.children }

@@ -10,18 +10,19 @@ import { history } from '../routers/AppRouter';
 
 export class PostHeader extends React.Component {
     handleAuthBackButton = () => {
-        console.log('HERE');
+        console.log('handleAuthBackButton');
         this.props.configureModal({
             modalButtons: [
                 {
-                    text: 'Save Draft',
+                    modalTitle: "Delete changes?",
+                    text: 'Cancel',
                     className: 'button',
                     onClick: this.props.toggleModal
                   },
                   {
-                    text: 'Delete',
+                    text: 'Confirm',
                     className: 'button',
-                    onClick: this.props.toggleModal
+                    onClick: [ this.props.toggleModal, this.handleBackButton ]
                   }
               ]
         });
