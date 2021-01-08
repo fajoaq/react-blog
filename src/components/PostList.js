@@ -5,30 +5,54 @@ import PostListItem from './PostListItem';
 
 export const PostList = (props) => (
     <div>
-        { props.visiblePosts &&
+        <React.Fragment>
+        { (props.draftPosts.length > 0) &&
             <div className="content-container">
                 <div className="list-body">
                 {
-                    (props.visiblePosts.length === 0) ? 
-                    <h3 className="list-item list-error-visible">No posts.</h3> 
-                    : 
-                    props.visiblePosts.map((post) => {
-                    if(post) {
-                        return <PostListItem  key={ post.id} post={ post } />
-                        }
-                    })
+                    props.draftPosts.map((post) => {
+                        if(post) {
+                            return <PostListItem  key={ post.id} post={ post } />
+                            }
+                        })
                 }
                 </div>
             </div>
         }
+        { (props.visiblePosts.length > 0) ?
+            <div className="content-container">
+                <div className="list-body">
+                {
+                    props.visiblePosts.map((post) => {
+                        if(post) {
+                            return <PostListItem  key={ post.id} post={ post } />
+                            }
+                        })
+                }
+                </div>
+            </div>
+            :
+            <h3 className="list-item list-error-visible">No posts.</h3> 
+        }
+        </React.Fragment>
+        
     </div>
     
 );
 
-const mapStateToProps = (state) => ({
-    visiblePosts: state.postList.map((post) => {
-        if(post.id && post.isPublished === true) return post
-    })
-});
+const mapStateToProps = (state) => {
+    let draftPosts = [];
+    return {
+        visiblePosts: state.postList.map((post) => {
+            if(post.id && post.isPublished === true) {
+                return post;
+            } else if(post.id && post.isPublished === false) {
+                draftPosts.push(post)
+                return;
+            }
+        }),
+        draftPosts
+    };
+};
 
 export default connect(mapStateToProps)(PostList);
