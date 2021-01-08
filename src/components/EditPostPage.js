@@ -11,20 +11,22 @@ import Button from './Button';
 export class EditPostPage extends React.Component {
   constructor(props) {
     super(props)
-    this.handleConfigureModal = this.handleConfigureModal.bind(this);
+    this.onInitiateDelete = this.onInitiateDelete.bind(this);
     this.handleSavepost = this.handleSavepost.bind(this);
     this.handleDeletePost = this.handleDeletePost.bind(this);
     this.state = {
-      postTitle: '',
-      postBody: '',
-      postAuthor: '',
-      created: '',
-      id: '',
-      postUid: '',
-      isPublished: false
+      postTitle: this.props.post ? this.props.post.postTitle : '',
+      postBody: this.props.post  ? this.props.post.postBody : '',
+      postAuthor: this.props.post  ? this.props.post.postAuthor : '',
+      created: this.props.post  ? this.props.post.created : '',
+      id: this.props.post  ? this.props.post.id : '',
+      postUid: this.props.post  ? this.props.post.postUid : '',
+      isPublished: this.props.post ? this.props.post.isPublished : false
     };
   };
-  componentDidMount = () => {
+  componentDidMount() {
+    // When a page is refreshed or when entry is from anywhere other 
+    // than dashboard page, fetch data for this single post
     if(!!!this.props.post) {
       this.props.startSetSinglePost(this.props.location.state.uid, this.props.postId).then(() => {
         this.setState((previousState) => ({
@@ -32,15 +34,13 @@ export class EditPostPage extends React.Component {
           ...this.props.post
         }));
       });
-    } else {
-      this.setState((previousState) => ({
-        ...previousState,
-        ...this.props.post
-      }));   
-    }
-
-    this.handleConfigureModal();
+    } 
   };
+  componentDidUpdate() {
+    if (this.state !== this.props.post) {
+      console.log('state or props changed', this.state, this.props);
+    }
+  }
   handleTitleChange = ({target}) => {
     this.setState(() => ({
       postTitle: target.value
@@ -60,7 +60,7 @@ export class EditPostPage extends React.Component {
       this.props.history.push('/');
     });
   };
-  handleConfigureModal = () => {
+  onInitiateDelete = () => {
     this.props.configureModal({
       modalTitle: "Remove post?",
       contentLabel: this.props.post.postTitle,
@@ -78,6 +78,7 @@ export class EditPostPage extends React.Component {
       ]
       }
     );
+    this.props.toggleModal();
   };
   handleDeletePost = () => {
     this.props.startRemovePost({id: this.state.id, postUid: this.state.postUid }).then(() => {
@@ -106,7 +107,7 @@ export class EditPostPage extends React.Component {
                 <Button onClick={ this.handleSavepost } className="button">
                   Save Post
                 </Button>
-                <Button onClick={ this.props.toggleModal } className="button">
+                <Button onClick={ this.onInitiateDelete } className="button">
                   Delete Post
                 </Button>
               </div>

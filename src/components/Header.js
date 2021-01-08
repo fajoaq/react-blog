@@ -27,9 +27,9 @@ export class Header extends React.Component {
     }
   };
   handleAuthHomeButton = () => {
-    console.log('handleAuthHomeButton');
     this.props.configureModal({
-      modalTitle: "Delete changes?",
+      modalTitle: "Discard changes?",
+      contentLabel: '',
       modalButtons: [
           {
             text: 'Cancel',
