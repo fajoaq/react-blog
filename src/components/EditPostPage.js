@@ -36,26 +36,30 @@ export class EditPostPage extends React.Component {
       });
     } 
   };
-  componentDidUpdate() {
-    if (this.state !== this.props.post) {
-      console.log('state or props changed', this.state, this.props);
-    }
-  }
   handleTitleChange = ({target}) => {
     this.setState(() => ({
       postTitle: target.value
     }));
+    this.props.configureModal({
+      dataHasChanged: true
+    });
   };
   handleBodyTextChange = ({target}) => {
     this.setState(() => ({
       postBody: target.value
     }));
+    this.props.configureModal({
+      dataHasChanged: true
+    });
   };
   handleSavepost = () => {
     const postData = {
       ...this.state,
       isPublished: true
     }
+    this.props.configureModal({
+      dataHasChanged: false
+    });
     this.props.startUpdatePost(postData).then(() => {
       this.props.history.push('/');
     });
@@ -81,6 +85,10 @@ export class EditPostPage extends React.Component {
     this.props.toggleModal();
   };
   handleDeletePost = () => {
+    this.props.configureModal({
+      dataHasChanged: false
+    });
+    
     this.props.startRemovePost({id: this.state.id, postUid: this.state.postUid }).then(() => {
       this.props.toggleModal();
       this.props.history.push('/');

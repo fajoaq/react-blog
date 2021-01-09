@@ -1,5 +1,3 @@
-
-
 export const configureModal = (parameters) => ({
     type: 'CONFIGURE_MODAL',
     parameters

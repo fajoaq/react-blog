@@ -41,9 +41,9 @@ export class Header extends React.Component {
             className: 'button',
             onClick: [ this.props.toggleModal, this.handleHomeButton ]
           }
-        ]
+        ],
+        dataHasChanged: false
     });
-    this.props.toggleModal();
   };
   handleHomeButton = () => {
     history.push('/');
@@ -63,8 +63,11 @@ export class Header extends React.Component {
           <div className="header__content">
             <Button 
               className="header__title button--link" 
-              onClick={ this.props.isAuthor ? [this.handleAuthHomeButton] : [this.handleHomeButton] }>
-                <h1>React Blog</h1>
+              onClick={ (this.props.isAuthor && this.props.dataHasChanged) ?
+                [this.handleAuthHomeButton, this.props.toggleModal] 
+                : 
+                [this.handleHomeButton] }>
+                  <h1>React Blog</h1>
             </Button>
             { this.props.isAuthenticated ? 
               <div>
@@ -87,11 +90,12 @@ export class Header extends React.Component {
   };
 };
 
-const mapStateToProps = (state, props) => ({
+const mapStateToProps = (state) => ({
   modalTitle: state.modal.modalTitle,
   contentLabel: state.modal.contentLabel,
   modalButtons: state.modal.modalButtons,
-  initiateModal: state.modal.initiateModal
+  initiateModal: state.modal.initiateModal,
+  dataHasChanged: state.modal.dataHasChanged
 });
 
 const mapDistpatchToProps = (dispatch) => ({

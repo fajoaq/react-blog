@@ -1,7 +1,6 @@
 import database from '../firebase/firebase';
 
 export const startAddPost = (postData = {}) => {
-  delete postData.initiateRemove;
   return (dispatch, getState) => {
     const uid = getState().auth.uid;
     const userName = getState().auth.displayName

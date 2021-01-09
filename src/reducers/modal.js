@@ -2,7 +2,8 @@ const defaultModalState = {
     modalTitle: '',
     contentLabel: '',
     modalButtons: [],
-    initiateModal: false
+    initiateModal: false,
+    dataHasChanged: false
 }
 
 export default (state = defaultModalState, action) => {

@@ -25,7 +25,8 @@ export class PostHeader extends React.Component {
                     className: 'button',
                     onClick: [ this.props.toggleModal, this.handleBackButton ]
                   }
-              ]
+              ],
+              dataHasChanged: false
         });
     };
     handleBackButton = () => {
@@ -39,8 +40,11 @@ export class PostHeader extends React.Component {
         
                     <Button 
                         className="page-header__back-button" 
-                        onClick={ this.props.isAuthor ? [this.handleAuthBackButton, this.props.toggleModal] : [this.handleBackButton] }>
-                            <AiOutlineDoubleLeft className="page-header__back-image"/>
+                        onClick={ (this.props.isAuthor && this.props.dataHasChanged) ? 
+                            [this.handleAuthBackButton, this.props.toggleModal] 
+                            : 
+                            [this.handleBackButton] }>
+                                <AiOutlineDoubleLeft className="page-header__back-image"/>
                     </Button>
                     <div className="container--flex container--flex-center container--margin-left ">
                         <div>
@@ -74,9 +78,13 @@ export class PostHeader extends React.Component {
     };
 };
 
+const mapStateToProps = (state) => ({
+    dataHasChanged: state.modal.dataHasChanged
+  });
+
 const mapDistpatchToProps = (dispatch) => ({
     configureModal: (parameters) => dispatch(configureModal(parameters)),
     toggleModal: () => dispatch(toggleModal())
 });
 
-export default connect(undefined, mapDistpatchToProps)(PostHeader);
+export default connect(mapStateToProps, mapDistpatchToProps)(PostHeader);
