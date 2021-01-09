@@ -4,8 +4,7 @@ const filtersReducerDefaultState = {
   textFilter: '',
   sortBy: 'date',
   dateFilter: 'all',
-  hasFilters: false,
-  showDrafts: false
+  hasFilters: false
 };
 
 export default (state = filtersReducerDefaultState, action) => {

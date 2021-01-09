@@ -63,7 +63,7 @@ export class Header extends React.Component {
           <div className="header__content">
             <Button 
               className="header__title button--link" 
-              onClick={ this.props.isAuthor ? this.handleAuthHomeButton : this.handleHomeButton }>
+              onClick={ this.props.isAuthor ? [this.handleAuthHomeButton] : [this.handleHomeButton] }>
                 <h1>React Blog</h1>
             </Button>
             { this.props.isAuthenticated ? 

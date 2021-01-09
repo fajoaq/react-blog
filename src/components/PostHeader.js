@@ -11,13 +11,14 @@ import { history } from '../routers/AppRouter';
 export class PostHeader extends React.Component {
     handleAuthBackButton = () => {
         this.props.configureModal({
+            modalTitle: 'Discard changes?',
             contentLabel: '',
             modalButtons: [
                 {
                     modalTitle: "Discard changes?",
                     text: 'Cancel',
                     className: 'button',
-                    onClick: this.props.toggleModal
+                    onClick: [ this.props.toggleModal ]
                   },
                   {
                     text: 'Confirm',
@@ -26,7 +27,6 @@ export class PostHeader extends React.Component {
                   }
               ]
         });
-        this.props.toggleModal();
     };
     handleBackButton = () => {
         history.push('/dashboard');
@@ -39,7 +39,7 @@ export class PostHeader extends React.Component {
         
                     <Button 
                         className="page-header__back-button" 
-                        onClick={ this.props.isAuthor ? this.handleAuthBackButton : this.handleBackButton }>
+                        onClick={ this.props.isAuthor ? [this.handleAuthBackButton, this.props.toggleModal] : [this.handleBackButton] }>
                             <AiOutlineDoubleLeft className="page-header__back-image"/>
                     </Button>
                     <div className="container--flex container--flex-center container--margin-left ">

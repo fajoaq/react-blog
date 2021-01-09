@@ -68,12 +68,12 @@ export class EditPostPage extends React.Component {
         {
           text: 'Cancel',
           className: 'button',
-          onClick: this.props.toggleModal
+          onClick: [this.props.toggleModal]
         },
         {
           text: 'Confirm',
           className: 'button',
-          onClick: this.handleDeletePost
+          onClick: [this.handleDeletePost]
         }
       ]
       }
@@ -104,10 +104,10 @@ export class EditPostPage extends React.Component {
             
             <div className="content-container">
               <div className="button-group">
-                <Button onClick={ this.handleSavepost } className="button">
+                <Button onClick={ [this.handleSavepost] } className="button">
                   Save Post
                 </Button>
-                <Button onClick={ this.onInitiateDelete } className="button">
+                <Button onClick={ [this.onInitiateDelete] } className="button">
                   Delete Post
                 </Button>
               </div>
