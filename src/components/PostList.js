@@ -20,7 +20,9 @@ export class PostList extends React.Component {
                 {   (this.props.draftPosts.length) > 0 &&
                     <div className="content-container">
                         { 
-                            <Button onClick={ [ this.toggleDraftList ] }>Show drafts</Button>
+                            <Button className="button--link" onClick={ [ this.toggleDraftList ] }>
+                                { this.props.draftPosts.length > 1 ? `Show ${this.props.draftPosts.length} draft posts` : `Show draft`}
+                            </Button>
                         }
                         <div className="list-body">
                         { this.state.showDraftList &&
@@ -60,7 +62,7 @@ const mapStateToProps = (state) => {
             if(post.id && post.isPublished === true) {
                 return post;
             } else if(post.id && post.isPublished === false) {
-                draftPosts.push(post)
+                if(state.auth.uid === post.postUid) { draftPosts.push(post) }
                 return;
             }
         }),

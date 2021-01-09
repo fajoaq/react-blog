@@ -4,10 +4,10 @@ import PostList from './PostList';
 import FilterPosts from './PostsFilter';
 
 export const DashboardPage = () => (
-    <div>
+    <React.Fragment>
       <FilterPosts />
       <PostList />
-    </div>
+    </React.Fragment>
 );
 
 export default DashboardPage;

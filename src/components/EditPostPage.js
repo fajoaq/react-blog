@@ -88,8 +88,7 @@ export class EditPostPage extends React.Component {
   };
   render() {
     return (
-      
-      <div>
+      <React.Fragment>
         { (!!this.state.postUid) ? 
           <div>
             <PostHeader post={ this.props.post } isAuthor={ true } />
@@ -118,7 +117,7 @@ export class EditPostPage extends React.Component {
             <p className="page-header__error-message">There is no such post.</p>
           </div>
         }
-      </div>
+      </React.Fragment>
     );
   };
 };

@@ -33,7 +33,7 @@ export class PostHeader extends React.Component {
     };
     render() {
         return (
-            <div>
+            <React.Fragment>
             { (!!this.props.post) ?
                 <div className="page-header">
         
@@ -69,7 +69,7 @@ export class PostHeader extends React.Component {
             :
             <LoadingPage />
             }
-            </div>
+            </React.Fragment>
         );
     };
 };

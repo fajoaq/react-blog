@@ -9,6 +9,7 @@
 
 .list-body {
     margin-bottom: $m-size;
+    border-top: 1px solid darken($off-white, 7%);
 
     @media (min-width: $desktop-breakpoint) {
         margin-bottom: $l-size;
@@ -33,15 +34,8 @@
         grid-auto-flow: column;
         grid-template-columns: 1fr minmax(15rem, 25rem) minmax(15rem, 25rem);
         justify-items: center;
-        /* flex-direction: row;
-        justify-content: space-between; */
-        /* align-items: center; */
         padding: $m-size;
     }
-}
-
-.list-body:first-child {
-    border-top: 1px solid darken($off-white, 7%);
 }
 
 /* .list-item__error-message {

@@ -16,7 +16,6 @@ const createModalButtons = (buttons = []) => {
 };
 
 export const PostModal = (props) => (
-
     <Modal
         isOpen={ props.initiateModal }
         modalTitle={ props.modalTitle }

@@ -90,7 +90,7 @@ export class FilterPosts extends React.Component {
     };
     render() {
         return (
-            <div>
+            <React.Fragment>
               { this.props.filters ? 
                 <div className="content-container">
                   <div className="input-group">
@@ -139,7 +139,7 @@ export class FilterPosts extends React.Component {
                 :
                 <LoadingPage />
               }
-            </div>
+            </React.Fragment>
 
         );
     };
