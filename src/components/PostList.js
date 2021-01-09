@@ -17,11 +17,13 @@ export class PostList extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <Button onClick={ [ this.toggleDraftList ] }>Show drafts</Button>
-                { (this.props.draftPosts.length > 0 && this.state.showDraftList) &&
+                {   (this.props.draftPosts.length) > 0 &&
                     <div className="content-container">
+                        { 
+                            <Button onClick={ [ this.toggleDraftList ] }>Show drafts</Button>
+                        }
                         <div className="list-body">
-                        {
+                        { this.state.showDraftList &&
                             this.props.draftPosts.map((post) => {
                                 if(post) {
                                     return <PostListItem  key={ post.id} post={ post } />
@@ -46,7 +48,7 @@ export class PostList extends React.Component {
                     :
                     <h3 className="list-item list-error-visible">No posts.</h3> 
                 }
-            </React.Fragment>  
+            </React.Fragment> 
         );
     }
 };
