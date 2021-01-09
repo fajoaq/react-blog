@@ -100,7 +100,6 @@ export const startSetSinglePost = (uid, id) => {
             id: ref.key,
             ...ref.val()
           };
-          console.log(post);
           dispatch(setSinglePost(post));
           return post;
        });

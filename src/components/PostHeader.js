@@ -7,6 +7,7 @@ import Button  from './Button';
 import { AiOutlineDoubleLeft } from 'react-icons/ai';
 import { configureModal, toggleModal } from '../actions/modal';
 import { history } from '../routers/AppRouter';
+import { startChangeDisplayName } from '../actions/users';
 
 export class PostHeader extends React.Component {
     handleAuthBackButton = () => {
@@ -32,8 +33,8 @@ export class PostHeader extends React.Component {
     handleBackButton = () => {
         history.push('/dashboard');
     };
-    handleChangeDisplayName = () => {
-
+    handleChangeDisplayName = ({target}) => {
+        this.props.startChangeDisplayName(this.props.uid, target.value);
     };
     render() {
         return (
@@ -55,7 +56,7 @@ export class PostHeader extends React.Component {
                             { (this.props.post.isAuthor) ? 'Edit Post' : `${this.props.post.postTitle}` }
                                 <div className="page-header__author">
                                 { this.props.isAuthor ? 
-                                    <input type="text" placeholder={`by ${ this.props.displayName}`}/>
+                                    <input type="text" onChange={ this.handleChangeDisplayName } placeholder={`by ${ this.props.displayName}`}/>
                                     :
                                     `by| ${this.props.displayName}`
                                 }
@@ -87,12 +88,14 @@ export class PostHeader extends React.Component {
 
 const mapStateToProps = (state) => ({
     displayName: state.userList[0].displayName,
-    dataHasChanged: state.modal.dataHasChanged
+    dataHasChanged: state.modal.dataHasChanged,
+    uid: state.auth.uid
   });
 
 const mapDistpatchToProps = (dispatch) => ({
     configureModal: (parameters) => dispatch(configureModal(parameters)),
-    toggleModal: () => dispatch(toggleModal())
+    toggleModal: () => dispatch(toggleModal()),
+    startChangeDisplayName: (uid, displayName) => dispatch(startChangeDisplayName(uid, displayName))
 });
 
 export default connect(mapStateToProps, mapDistpatchToProps)(PostHeader);
