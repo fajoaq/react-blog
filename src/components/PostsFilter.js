@@ -23,6 +23,9 @@ export class PostsFilter extends React.Component {
       this.setState(() => ({
         ...filters
       }))
+      this.setUserAndPosts(filters);
+    }
+    setUserAndPosts = (filters) => {
       this.props.startSetUsers().then((userList) => {
         this.props.startSetPosts(filters, userList);
       });
@@ -43,7 +46,7 @@ export class PostsFilter extends React.Component {
         ...filters
       }));
       
-      this.props.setPosts(this.props.postList, filters);
+      this.setUserAndPosts(filters);
       this.props.setStoreFilters(filters);
       console.log('onSortChange');
     };
@@ -58,7 +61,7 @@ export class PostsFilter extends React.Component {
       this.setState(() => ({
         ...filters
       }));
-      this.props.startSetPosts(filters);
+      this.setUserAndPosts(filters);
       this.props.setStoreFilters(filters);
       console.log('onDatesFilterChange');
     };
@@ -73,7 +76,7 @@ export class PostsFilter extends React.Component {
       this.setState(() => ({
         ...filters
       }));
-      this.props.startSetPosts(filters);
+      this.setUserAndPosts(filters);
       this.props.setStoreFilters(filters);
       console.log('onTextChange');
     };
@@ -87,7 +90,7 @@ export class PostsFilter extends React.Component {
       this.setState(() => ({
         ...filters
       }));
-      this.props.startSetPosts(filters);
+      this.setUserAndPosts(filters);
       this.props.setStoreFilters(filters);
     };
     render() {

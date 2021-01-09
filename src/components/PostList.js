@@ -22,13 +22,13 @@ export class PostList extends React.Component {
                         { 
                             <Button className="button--link" onClick={ [ this.toggleDraftList ] }>
                                 { this.state.showDraftList ? 
-                                    `Hide draft list`
+                                    `Hide draft list >>`
                                     :
                                     <span>
                                         { this.props.draftPosts.length > 1 ? 
-                                            `Show ${this.props.draftPosts.length} draft posts` 
+                                            `Show ${this.props.draftPosts.length} draft posts >>` 
                                             : 
-                                            `Show draft list`
+                                            `Show draft list >>`
                                         }
                                     </span>
                                 }
