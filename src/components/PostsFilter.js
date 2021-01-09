@@ -25,11 +25,13 @@ export class PostsFilter extends React.Component {
       }))
       this.setUserAndPosts(filters);
     }
+
     setUserAndPosts = (filters) => {
       this.props.startSetUsers().then((userList) => {
         this.props.startSetPosts(filters, userList);
       });
     }
+    
     onSortChange = ({ target }) => {
       //THIS SHOULD NOT BE HITTING THE DATABASE
       //This is why we use a filters object on each
