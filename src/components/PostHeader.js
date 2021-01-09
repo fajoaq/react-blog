@@ -32,6 +32,9 @@ export class PostHeader extends React.Component {
     handleBackButton = () => {
         history.push('/dashboard');
     };
+    handleChangeDisplayName = () => {
+
+    };
     render() {
         return (
             <React.Fragment>
@@ -51,7 +54,11 @@ export class PostHeader extends React.Component {
                             <h1 className="page-header__title">
                             { (this.props.post.isAuthor) ? 'Edit Post' : `${this.props.post.postTitle}` }
                                 <div className="page-header__author">
-                                { `|by ${ this.props.post.postAuthor}` }
+                                { this.props.isAuthor ? 
+                                    <input type="text" placeholder={`by ${ this.props.displayName}`}/>
+                                    :
+                                    `by| ${this.props.displayName}`
+                                }
                                 </div>
                             </h1>
                             { (this.props.post.isAuthor) ? 
@@ -79,6 +86,7 @@ export class PostHeader extends React.Component {
 };
 
 const mapStateToProps = (state) => ({
+    displayName: state.userList[0].displayName,
     dataHasChanged: state.modal.dataHasChanged
   });
 

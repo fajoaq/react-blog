@@ -1,7 +1,8 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import authReducer from '../reducers/auth';
-import PostsReducer from '../reducers/posts'
+import PostsReducer from '../reducers/posts';
+import userReducer from '../reducers/users';
 import filtersReducer from '../reducers/filters';
 import modalReducer from '../reducers/modal';
 
@@ -16,6 +17,7 @@ export default () => {
     combineReducers({
       auth: authReducer,
       postList: PostsReducer,
+      userList: userReducer,
       filters: filtersReducer,
       modal: modalReducer
     }),

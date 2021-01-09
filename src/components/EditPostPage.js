@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 
+import { startSetSingleUser } from '../actions/users';
 import { startSetSinglePost, startRemovePost, startUpdatePost } from '../actions/posts';
 import { configureModal, toggleModal } from '../actions/modal';
 import PostHeader from './PostHeader';
@@ -28,11 +29,14 @@ export class EditPostPage extends React.Component {
     // When a page is refreshed or when entry is from anywhere other 
     // than dashboard page, fetch data for this single post
     if(!!!this.props.post) {
-      this.props.startSetSinglePost(this.props.location.state.uid, this.props.postId).then(() => {
-        this.setState((previousState) => ({
-          ...previousState,
-          ...this.props.post
-        }));
+      this.props.startSetSinglePost(undefined, this.props.postId).then((post) => {
+        this.props.startSetSingleUser(post.postUid).then((user) => {
+          this.setState((prevState) => ({
+            ...prevState,
+            ...this.props.post,
+            postAuthor: user.displayName
+          }));
+        });
       });
     } 
   };
@@ -141,6 +145,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch) => ({
   configureModal: (parameters) => dispatch(configureModal(parameters)),
   toggleModal: () => dispatch(toggleModal()),
+  startSetSingleUser: (uid) => dispatch(startSetSingleUser(uid)),
   startSetSinglePost: (uid, id) => dispatch(startSetSinglePost(uid, id)),
   startUpdatePost: (post) => dispatch(startUpdatePost(post)),
   startRemovePost: (id, postUid) => dispatch(startRemovePost(id, postUid))

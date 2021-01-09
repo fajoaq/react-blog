@@ -21,10 +21,20 @@ export class PostList extends React.Component {
                     <div className="content-container">
                         { 
                             <Button className="button--link" onClick={ [ this.toggleDraftList ] }>
-                                { this.props.draftPosts.length > 1 ? `Show ${this.props.draftPosts.length} draft posts` : `Show draft`}
+                                { this.state.showDraftList ? 
+                                    `Hide draft list`
+                                    :
+                                    <span>
+                                        { this.props.draftPosts.length > 1 ? 
+                                            `Show ${this.props.draftPosts.length} draft posts` 
+                                            : 
+                                            `Show draft list`
+                                        }
+                                    </span>
+                                }
                             </Button>
                         }
-                        <div className="list-body">
+                        <div className="list-body list-body--draft">
                         { this.state.showDraftList &&
                             this.props.draftPosts.map((post) => {
                                 if(post) {

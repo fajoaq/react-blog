@@ -3,24 +3,29 @@ import { connect } from 'react-redux';
 import { history } from '../routers/AppRouter';
 import moment from 'moment';
 
+import { startSetSingleUser } from '../actions/users';
 import { startAddPost } from '../actions/posts';
 import { AiFillPlusCircle } from 'react-icons/ai';
 
 export class AddPost extends React.Component {
     onAddPost = () => {
-        const post = {
-            postTitle: "new post",
-            postBody: "This is the post body",
-            created: moment().valueOf()
-        };
-    
-        this.props.startAddPost(post).then((ref) => {
-            history.push({
-                pathname: `/edit/${ref.id}`, 
-                state: {uid: ref.postUid}
+        let post = {};
+        this.props.startSetSingleUser(this.props.userUid).then((user) => {
+        post = {
+                postTitle: "new post",
+                postBody: "This is the post body",
+                postAuthor: user.displayName,
+                created: moment().valueOf()
+            };
+            console.log(post);
+            
+            this.props.startAddPost(post).then((ref) => {
+                history.push({
+                    pathname: `/edit/${ref.id}`, 
+                    state: {uid: ref.postUid}
+                });
             });
-        });
-        
+        });        
     };
 
     render() {
@@ -32,8 +37,13 @@ export class AddPost extends React.Component {
     };
 }
 
+const mapStateToProps = (state) => ({
+    userUid: state.auth.uid
+});
+
 const mapDispatchToProps = (dispatch) => ({
+    startSetSingleUser: (uid) => dispatch(startSetSingleUser(uid)),
     startAddPost: (post) => dispatch(startAddPost(post))
 })
 
-export default connect(undefined, mapDispatchToProps)(AddPost);
+export default connect(mapStateToProps, mapDispatchToProps)(AddPost);

@@ -1,31 +1,33 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { startSetSinglePost } from '../actions/posts';
+import { startSetSinglePost } from '../actions/posts'
+import { startSetSingleUser } from '../actions/users';
 import PostHeader from './PostHeader';
 
 export class PostPage extends React.Component {
   state={
-    initiateRemove: false,
-    postTitle: '',
-    postBody: '',
-    postAuthor: '',
-    created: '',
-    id: '',
-    postUid: '',
-    isPublished: false
+    postTitle: this.props.post ? this.props.post.postTitle : '',
+    postBody: this.props.post  ? this.props.post.postBody : '',
+    postAuthor: this.props.post  ? this.props.post.postAuthor : '',
+    created: this.props.post  ? this.props.post.created : '',
+    id: this.props.post  ? this.props.post.id : '',
+    postUid: this.props.post  ? this.props.post.postUid : '',
+    isPublished: this.props.post ? this.props.post.isPublished : false
   };
   componentDidMount = () => {
+    // When a page is refreshed or when entry is from anywhere other 
+    // than dashboard page, fetch data for this single post
     if(!!!this.props.post) {
-      this.props.startSetSinglePost(undefined, this.props.postId).then(() => {
-        this.setState(() => ({
-          ...this.props.post
-        }));
+      this.props.startSetSinglePost(undefined, this.props.postId).then((post) => {
+        this.props.startSetSingleUser(post.postUid).then((user) => {
+          this.setState((prevState) => ({
+            ...prevState,
+            ...this.props.post,
+            postAuthor: user.displayName
+          }));
+        });
       });
-    } else {
-      this.setState(() => ({
-        ...this.props.post
-      }));
     }
   };
   render() {
@@ -51,13 +53,14 @@ export class PostPage extends React.Component {
 }''
 
 const mapStateToProps = (state, props) => {
-  const postId = props.match.params.id
+  const postId = props.match.params.id;
   return{
     postId,
     post: state.postList.find((post) => post.id === postId)
   }
 };
 const mapDispatchToProps = (dispatch) => ({
+  startSetSingleUser: (uid) => dispatch(startSetSingleUser(uid)),
   startSetSinglePost: (uid, id) => dispatch(startSetSinglePost(uid, id))
 });
 

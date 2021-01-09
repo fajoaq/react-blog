@@ -2,10 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import LoadingPage from './LoadingPage';
+import { startSetUsers } from '../actions/users';
 import { setPosts, startSetPosts } from '../actions/posts';
 import { setStoreFilters } from '../actions/filters';
 
-export class FilterPosts extends React.Component {
+export class PostsFilter extends React.Component {
     state = {
       textFilter: '',
       sortBy: '',
@@ -22,8 +23,9 @@ export class FilterPosts extends React.Component {
       this.setState(() => ({
         ...filters
       }))
-      this.props.startSetPosts(filters);
-      console.log('componentDidMount');
+      this.props.startSetUsers().then((userList) => {
+        this.props.startSetPosts(filters, userList);
+      });
     }
     onSortChange = ({ target }) => {
       //THIS SHOULD NOT BE HITTING THE DATABASE
@@ -152,8 +154,9 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     setPosts: (posts, filters) => dispatch(setPosts(posts, filters)),
-    startSetPosts: (filters) => dispatch(startSetPosts(filters)),
+    startSetUsers: () => dispatch(startSetUsers()),
+    startSetPosts: (filters, userList) => dispatch(startSetPosts(filters, userList)),
     setStoreFilters: (filters) => dispatch(setStoreFilters(filters)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(FilterPosts);
+export default connect(mapStateToProps, mapDispatchToProps)(PostsFilter);

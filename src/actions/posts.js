@@ -1,14 +1,14 @@
 import database from '../firebase/firebase';
 
 export const startAddPost = (postData = {}) => {
+  console.log(postData);
   return (dispatch, getState) => {
     const uid = getState().auth.uid;
-    const userName = getState().auth.displayName
     const {
       postTitle = '',
       postBody = '',
       created = '',
-      postAuthor = userName,
+      postAuthor = 'anon',
       postUid = uid,
       isPublished = false
       } = postData;
@@ -55,16 +55,20 @@ export const removePost = ( id = 0 ) => ({
 });
 
 //START SET_POSTS
-export const startSetPosts = (filters) => {
+export const startSetPosts = (filters, userList) => {
   console.log('startSetPosts');
-  return (dispatch, getState) => {
-    const uid = getState().auth.uid;
+  return (dispatch) => {
       return database.ref(`/posts`).once('value').then((snapshot) => {
       const userPosts = [];
       snapshot.forEach((post) => {
+        const user = userList.find((user) => {
+          if(user.uid === post.val().postUid) 
+            return user.displayName;
+        });
         userPosts.push({
           id: post.key,
-          ...post.val()
+          ...post.val(),
+          postAuthor: user.displayName
         });
       });
       dispatch(setPosts(userPosts, filters));
