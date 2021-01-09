@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import validator from 'validator';
 
 import LoadingPage from './LoadingPage';
 import Button  from './Button';
@@ -34,7 +35,7 @@ export class PostHeader extends React.Component {
         history.push('/dashboard');
     };
     handleChangeDisplayName = ({target}) => {
-        this.props.startChangeDisplayName(this.props.uid, target.value);
+        this.props.startChangeDisplayName(this.props.uid, validator.escape(target.value));
     };
     render() {
         return (

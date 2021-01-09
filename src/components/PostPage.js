@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import validator from 'validator';
+import ReactHtmlParser from 'react-html-parser';
 
 import { startSetSinglePost } from '../actions/posts'
 import { startSetSingleUser } from '../actions/users';
@@ -8,7 +10,7 @@ import PostHeader from './PostHeader';
 export class PostPage extends React.Component {
   state={
     postTitle: this.props.post ? this.props.post.postTitle : '',
-    postBody: this.props.post  ? this.props.post.postBody : '',
+    postBody: this.props.post  ? validator.unescape(this.props.post.postBody) : '',
     postAuthor: this.props.post  ? this.props.post.postAuthor : '',
     created: this.props.post  ? this.props.post.created : '',
     id: this.props.post  ? this.props.post.id : '',
@@ -21,9 +23,11 @@ export class PostPage extends React.Component {
     if(!!!this.props.post) {
       this.props.startSetSinglePost(undefined, this.props.postId).then((post) => {
         this.props.startSetSingleUser(post.postUid).then((user) => {
+          const postBody = validator.unescape(post.postBody);
           this.setState((prevState) => ({
             ...prevState,
             ...this.props.post,
+            postBody,
             postAuthor: user.displayName
           }));
         });
@@ -38,7 +42,9 @@ export class PostPage extends React.Component {
           <div className="content-container">
             { 
               this.props.post &&
-              <p>{this.props.post.postBody}</p>
+              <div id="post-content">
+              { ReactHtmlParser( this.state.postBody) }
+              </div>
             }
           </div>
         </div>

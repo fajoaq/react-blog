@@ -39,6 +39,7 @@
     "react-addons-shallow-compare": "15.6.0",
     "react-dates": "13.0.2",
     "react-dom": "16.3.1",
+    "react-html-parser": "^2.0.2",
     "react-icons": "^4.1.0",
     "react-modal": "^3.12.1",
     "react-redux": "5.0.5",
@@ -50,7 +51,7 @@
     "sass-loader": "6.0.6",
     "style-loader": "0.18.2",
     "uuid": "3.1.0",
-    "validator": "8.0.0",
+    "validator": "^13.5.2",
     "webpack": "3.1.0"
   },
   "devDependencies": {

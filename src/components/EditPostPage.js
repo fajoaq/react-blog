@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import validator from 'validator';
 
 import { startSetSingleUser } from '../actions/users';
 import { startSetSinglePost, startRemovePost, startUpdatePost } from '../actions/posts';
@@ -17,7 +17,7 @@ export class EditPostPage extends React.Component {
     this.handleDeletePost = this.handleDeletePost.bind(this);
     this.state = {
       postTitle: this.props.post ? this.props.post.postTitle : '',
-      postBody: this.props.post  ? this.props.post.postBody : '',
+      postBody: this.props.post  ? validator.unescape(this.props.post.postBody) : '',
       postAuthor: this.props.post  ? this.props.post.postAuthor : '',
       created: this.props.post  ? this.props.post.created : '',
       id: this.props.post  ? this.props.post.id : '',
@@ -34,6 +34,7 @@ export class EditPostPage extends React.Component {
           this.setState((prevState) => ({
             ...prevState,
             ...this.props.post,
+            postBody: validator.unescape(this.props.post.postBody),
             postAuthor: user.displayName
           }));
         });
@@ -42,7 +43,7 @@ export class EditPostPage extends React.Component {
   };
   handleTitleChange = ({target}) => {
     this.setState(() => ({
-      postTitle: target.value
+      postTitle: target.value.trim()
     }));
     this.props.configureModal({
       dataHasChanged: true
@@ -57,16 +58,20 @@ export class EditPostPage extends React.Component {
     });
   };
   handleSavepost = () => {
-    const postData = {
-      ...this.state,
-      isPublished: true
+    // Validate, escape, then save data
+    if(validator.isAlphanumeric(this.state.postTitle.replace(/ /g,''))) {
+      const postData = {
+        ...this.state,
+        postBody: validator.escape(this.state.postBody),
+        isPublished: true
+      }
+      this.props.configureModal({
+        dataHasChanged: false
+      });
+      this.props.startUpdatePost(postData).then(() => {
+        this.props.history.push('/');
+      });
     }
-    this.props.configureModal({
-      dataHasChanged: false
-    });
-    this.props.startUpdatePost(postData).then(() => {
-      this.props.history.push('/');
-    });
   };
   onInitiateDelete = () => {
     this.props.configureModal({
