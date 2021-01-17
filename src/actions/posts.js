@@ -113,33 +113,6 @@ export const startSetPosts = (filters = {}) => {
               draftList.push({...postData})
             }
           });
-/*           puRef.forEach((userPostsRef) => {
-            userPostsRef.forEach((singleRef) => {
-              let isAuthor = false;
-              let authorName = 'Anon';
-              const isPublished = singleRef.val().isPublished;
-              
-              users.forEach((user) => {
-                console.log(user.key, userPostsRef.key)
-                if (user.key === singleRef.key) {
-                  authorName = user.val().displayName;
-                }
-              });
-              let postData = {};
-              pRef.forEach((post) => {
-                postData = {
-                  ...post.val(), postId: post.key, authorName, isPublished
-                }
-              });
-
-              if(isPublished) {
-                postList.push({...postData});
-              } else if(isAuthor) {
-                draftList.push({...postData})
-              }
-
-            })
-          }); */
           dispatch(setDrafts(draftList, filters));
           dispatch(setPosts(filteredList, filters));
         }));
@@ -160,36 +133,6 @@ export const setDrafts = (posts, filters) => ({
   posts,
   filters
 });
-
-// GET_SINGLE_POST
-/* export const startSetSinglePost = (postId) => {
-  return (dispatch, getState) => {
-    const uid = getState().auth.uid;
-    let postAuthor = '';
-    let isPublished = false;
-    return database.ref(`/users/${uid}`).once('value', (uRef) => {
-      postAuthor = uRef.val().displayName ? uRef.val().displayName : 'Anon';
-      isPublished = uRef.val().postRef.isPublished;
-    }).then(() => {
-      return database.ref(`/posts/${postId}`).once('value', ((pRef) => {
-        const post = {
-          ...pRef.val(),
-          postId,
-          isPublished,
-          postAuthor
-        };
-        dispatch(setSinglePost(post));
-      }));
-    });
-  };
-} */
-
-// SET_POSTS
-export const setSinglePost = (post) => ({
-  type: 'SET_SINGLE_POST',
-  post
-});
-
 //START UPDATE_POST
 export const startUpdatePost = (post) => {
   const updates = {

@@ -35,7 +35,7 @@ export class PostHeader extends React.Component {
         history.push('/dashboard');
     };
     handleChangeDisplayName = ({target}) => {
-        this.props.startChangeDisplayName(this.props.uid, validator.escape(target.value));
+        this.props.startChangeDisplayName(validator.escape(target.value));
     };
     render() {
         return (

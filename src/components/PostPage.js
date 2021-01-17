@@ -3,41 +3,22 @@ import { connect } from 'react-redux';
 import validator from 'validator';
 import ReactHtmlParser from 'react-html-parser';
 
-import { startSetSinglePost } from '../actions/posts'
-import { startSetSingleUser } from '../actions/users';
 import PostHeader from './PostHeader';
 
 export class PostPage extends React.Component {
   state={
     postTitle: this.props.post ? this.props.post.postTitle : '',
     postBody: this.props.post  ? validator.unescape(this.props.post.postBody) : '',
-    postAuthor: this.props.post  ? this.props.post.postAuthor : '',
+    authorName: this.props.post  ? this.props.post.authorName : '',
     created: this.props.post  ? this.props.post.created : '',
     postId: this.props.post  ? this.props.post.postId : '',
     authId: this.props.post  ? this.props.post.authId : '',
     isPublished: this.props.post ? this.props.post.isPublished : false
   };
-  componentDidMount = () => {
-    // When a page is refreshed or when entry is from anywhere other 
-    // than dashboard page, fetch data for this single post
-/*     if(!!!this.props.post) {
-      this.props.startSetSinglePost(undefined, this.props.postId).then((post) => {
-        this.props.startSetSingleUser(post.authId).then((user) => {
-          const postBody = validator.unescape(post.postBody);
-          this.setState((prevState) => ({
-            ...prevState,
-            ...this.props.post,
-            postBody,
-            postAuthor: user.displayName
-          }));
-        });
-      });
-    } */
-  };
   render() {
     return (
       <React.Fragment>
-        { (!!this.state.postUid) ? <div>
+        { (!!this.state.authId) ? <div>
           <PostHeader post={ this.props.post } isAuthor={ false } />
           <div className="content-container">
             { 
@@ -59,16 +40,11 @@ export class PostPage extends React.Component {
 }''
 
 const mapStateToProps = (state, props) => {
-  const postId = props.match.params.id;
+  let post = state.draftList.find((draft) => draft.postId === props.match.params.id);
+  if(!post) post = state.postList.find((post) => post.postId === props.match.params.id);
   return{
-    postId
-    /* ,
-    post: state.postList.find((post) => post.postId === postId) */
+    post
   }
 };
-const mapDispatchToProps = (dispatch) => ({
-  startSetSingleUser: (uid) => dispatch(startSetSingleUser(uid)),
-  startSetSinglePost: (uid, id) => dispatch(startSetSinglePost(uid, id))
-});
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostPage);
+export default connect(mapStateToProps)(PostPage);

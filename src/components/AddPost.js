@@ -3,17 +3,14 @@ import { connect } from 'react-redux';
 import { history } from '../routers/AppRouter';
 import moment from 'moment';
 
-import { startSetSingleUser } from '../actions/users';
 import { startAddPost } from '../actions/posts';
 import { AiFillPlusCircle } from 'react-icons/ai';
 
 export class AddPost extends React.Component {
     onAddPost = () => {
-        /* let post = {}; */
         const post = {
             postTitle: "new post",
             postBody: "This is the post body",
-/*             postAuthor: user.displayName, */
             created: moment().valueOf()
         };
         
@@ -22,10 +19,7 @@ export class AddPost extends React.Component {
                 pathname: `/edit/${post.postId}`, 
                 state: {post}
             });
-        });
-/*         this.props.startSetSingleUser(this.props.userUid).then((user) => {
- 
-        });    */     
+        }); 
     };
 
     render() {
@@ -42,7 +36,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    startSetSingleUser: (uid) => dispatch(startSetSingleUser(uid)),
     startAddPost: (post) => dispatch(startAddPost(post))
 })
 
