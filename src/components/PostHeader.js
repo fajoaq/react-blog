@@ -95,7 +95,7 @@ const mapStateToProps = (state) => ({
 const mapDistpatchToProps = (dispatch) => ({
     configureModal: (parameters) => dispatch(configureModal(parameters)),
     toggleModal: () => dispatch(toggleModal()),
-    startChangeDisplayName: (uid, authorName) => dispatch(startChangeDisplayName(uid, authorName))
+    startChangeDisplayName: (authorName) => dispatch(startChangeDisplayName(authorName))
 });
 
 export default connect(mapStateToProps, mapDistpatchToProps)(PostHeader);

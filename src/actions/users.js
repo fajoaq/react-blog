@@ -4,10 +4,14 @@ export const startChangeDisplayName = (displayName) => {
   return (dispatch, getState) => {
       const uid = getState().auth.uid;
       return database.ref(`/user/${uid}/`).update({displayName}).then(() => {
-        dispatch(updateUser({uid, displayName}));
+        dispatch(updateUser({displayName: displayName}));
         firebase.auth().currentUser.updateProfile({
           displayName
         });
       });
   };
 }
+export const updateUser = (userData) => ({
+  type: 'UPDATE_USER',
+  userData
+});

@@ -13,5 +13,6 @@
 
 .textarea {
     @extend .text-input;
-    height: 20rem;
+    overflow-x: hidden;
+    height: 35rem;
 }

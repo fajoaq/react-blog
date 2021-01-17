@@ -7,10 +7,10 @@ const defaultAuthState = {
 
 export default (state = defaultAuthState, action) => {
     switch(action.type) {
-        case 'SET_DISPLAY_NAME':
+        case 'UPDATE_USER':
             return {
                 ...state,
-                displayName: action.displayName
+                ...action.userData
             };
         case 'LOGIN':
             return {

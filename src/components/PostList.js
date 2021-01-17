@@ -13,6 +13,9 @@ export class PostList extends React.Component {
         visiblePosts: this.props.visiblePosts,
         visibleDrafts: this.props.visibleDrafts
     }
+    componentDidMount = () => {
+        this.props.startSetPosts();
+    }
     componentDidUpdate = () => {
         if ((this.props.filters !== this.state.filters)
             ||

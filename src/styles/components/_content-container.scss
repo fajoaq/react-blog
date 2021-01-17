@@ -25,3 +25,7 @@
 .container--flex-col {
     flex-direction: column;
 }
+
+#post-content {
+    overflow-x: hidden;
+}

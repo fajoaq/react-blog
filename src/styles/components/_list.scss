@@ -5,6 +5,7 @@
     border: 1px solid darken($off-white, 7%);
     color: $grey;
     padding: $s-size $m-size;
+    word-break: break-all;
 }
 
 .list-body {
@@ -72,10 +73,12 @@
 
 .list-item__subtitle--container {
     width: 15rem;
+    word-break: break-all;
 }
 .list-item__subtitle {
     color: $grey;
     font-size: $font-size-small;
+    word-break: break-all;
 }
 
 .list-item__data {
