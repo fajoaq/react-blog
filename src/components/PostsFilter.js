@@ -2,18 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import LoadingPage from './LoadingPage';
-import { startSetPosts } from '../actions/posts';
+import { setPosts } from '../actions/posts';
 import { setStoreFilters } from '../actions/filters';
 
 export class PostsFilter extends React.Component {
     state = {
-      textFilter: '',
-      sortBy: '',
-      dateFilter: '',
-      hasFilters: false
+      textFilter: this.props.filters ? this.props.filters.textFilter : '',
+      sortBy: this.props.filters ? this.props.filters.sortBy : '',
+      dateFilter: this.props.filters ? this.props.filters.dateFilter : '',
+      hasFilters: this.props.filters ? this.props.filters.textFilter : false
     }
+
     componentDidMount() {
-      this.props.startSetPosts();
       const filters = {
         textFilter: this.props.filters.textFilter,
         sortBy: this.props.filters.sortBy,
@@ -24,7 +24,6 @@ export class PostsFilter extends React.Component {
         ...filters
       }))
     }
-    
     onSortChange = ({ target }) => {
       //THIS SHOULD NOT BE HITTING THE DATABASE
       //This is why we use a filters object on each
@@ -142,7 +141,6 @@ const mapStateToProps = (state) => ({
   });
 
 const mapDispatchToProps = (dispatch) => ({
-  startSetPosts: () => dispatch(startSetPosts()),
   setStoreFilters: (filters) => dispatch(setStoreFilters(filters))
 });
 

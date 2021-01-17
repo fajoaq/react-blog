@@ -1,5 +1,3 @@
-import postsSelector from '../selectors/posts';
-
 export default (state = [], action) => {
     /* console.log(action.type); */
     switch(action.type) {
@@ -9,7 +7,14 @@ export default (state = [], action) => {
                 action.post
             ];
         case 'SET_DRAFTS':
-            return postsSelector(action.posts, action.filters)
+            return action.posts;
+        case 'REMOVE_DRAFT':
+            const draft = state.find((draft) => draft.postId === action.postId);
+            if(draft) {
+                return state.filter((draft) => {
+                    return draft.postId !== action.postId;
+                });
+            } else return state;
         case 'RESET':
             return [];
         default:

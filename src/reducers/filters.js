@@ -1,4 +1,5 @@
 // Filters Reducer
+import postsSelector from '../selectors/posts';
 
 const filtersReducerDefaultState = {
   textFilter: '',
@@ -13,7 +14,7 @@ export default (state = filtersReducerDefaultState, action) => {
       return {
         ...state,
         ...action.filters
-      }
+      };
     case 'RESET':
       return {};
     default:

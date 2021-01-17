@@ -88,7 +88,6 @@ export class PostHeader extends React.Component {
 };
 
 const mapStateToProps = (state) => ({
-/*     displayName: state.userList[0].displayName, */
     dataHasChanged: state.modal.dataHasChanged,
     uid: state.auth.uid
   });

@@ -1,7 +1,3 @@
-
-import { act } from 'react-test-renderer';
-import postsSelector from '../selectors/posts';
-
 export default (state = [], action) => {
     /* console.log(action.type); */
     switch(action.type) {
@@ -11,12 +7,14 @@ export default (state = [], action) => {
                 action.post
             ];
         case 'REMOVE_POST':
-            return state.filter((post) => {
-                return post.postId !== action.id;
-            });
+            const post = state.find((post) => post.postId === action.postId);
+            if(post) {
+                return state.filter((post) => {
+                    return post.postId !== action.postId;
+                });
+            } else return state;
         case 'SET_POSTS':
- 
-            return postsSelector(action.posts, action.filters)
+            return action.posts;
         case 'SET_SINGLE_POST':
             return [ 
                 action.post

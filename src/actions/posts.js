@@ -1,5 +1,8 @@
-import database, { firebase } from '../firebase/firebase';
+import database from '../firebase/firebase';
 
+import postsSelector from '../selectors/posts';
+
+//START_ADD_POST
 export const startAddPost = (postData = {}) => {
   return (dispatch, getState) => {
     const uid = getState().auth.uid;
@@ -34,18 +37,6 @@ export const startAddPost = (postData = {}) => {
   };
 };
 
-//Add Draft
-export const addDraft = (post) => ({
-  type: 'ADD_DRAFT',
-  post
-});
-
-//Add post
-export const addPost = (post) => ({
-    type: 'ADD_POST',
-    post
-});
-
 //START REMOVE_EXPENSE
 export const startRemovePost = ( {postId, authId} ) => {
   return (dispatch, getState) => {
@@ -54,6 +45,7 @@ export const startRemovePost = ( {postId, authId} ) => {
       return database.ref(`/posts/${postId}`).remove().then(() => {
         return database.ref(`/postRef/${authId}/${postId}`).remove().then(() => {
           dispatch(removePost( postId ));
+          dispatch(removeDraft( postId ));
         })
       });
     } else {
@@ -61,12 +53,6 @@ export const startRemovePost = ( {postId, authId} ) => {
     }
   };
 };
-
-// REMOVE_EXPENSE
-export const removePost = ( postId = 0 ) => ({
-  type: 'REMOVE_POST',
-  postId
-});
 
 //START SET_POSTS
 export const startSetPosts = (filters = {}) => {
@@ -113,26 +99,13 @@ export const startSetPosts = (filters = {}) => {
               draftList.push({...postData})
             }
           });
-          dispatch(setDrafts(draftList, filters));
-          dispatch(setPosts(filteredList, filters));
+          dispatch(setDrafts(draftList));
+          dispatch(setPosts(filteredList));
         }));
       });
     });
   };
 };
-  
-// SET_POSTS
-export const setPosts = (posts, filters) => ({
-  type: 'SET_POSTS',
-  posts,
-  filters
-});
-// SET_DRAFTS
-export const setDrafts = (posts, filters) => ({
-  type: 'SET_DRAFTS',
-  posts,
-  filters
-});
 //START UPDATE_POST
 export const startUpdatePost = (post) => {
   const updates = {
@@ -147,6 +120,7 @@ export const startUpdatePost = (post) => {
       return database.ref(`/posts/${post.postId}`).update({...updates}).then(() => {
         return database.ref(`/postRef/${uid}/${post.postId}`).update({isPublished: true}).then(() => {
           dispatch(updatePost(post));
+          dispatch(removeDraft(post.postId));
         })
       });
     } else {
@@ -154,14 +128,48 @@ export const startUpdatePost = (post) => {
     }
   };
 };
-  
+//Add Draft
+export const addDraft = (post) => ({
+  type: 'ADD_DRAFT',
+  post
+});
+
+//Add post
+export const addPost = (post) => ({
+    type: 'ADD_POST',
+    post
+});
 // SET_POSTS
+export const setPosts = (posts) => ({
+  type: 'SET_POSTS',
+  posts
+});
+// SET_DRAFTS
+export const setDrafts = (posts) => ({
+  type: 'SET_DRAFTS',
+  posts
+});
+//SET VISIBLE POST
+export const setVisiblePosts = (posts, filters) => {
+  return postsSelector(posts, filters);
+};
+// UPDATE_POST
 export const updatePost = (post) => ({
   type: 'UPDATE_POST',
   post
 });
+// REMOVE_EXPENSE
+export const removePost = ( postId = 0 ) => ({
+  type: 'REMOVE_POST',
+  postId
+});
+// REMOVE_DRAFT
+export const removeDraft = ( postId = 0 ) => ({
+  type: 'REMOVE_DRAFT',
+  postId
+});
 
-//RESET 
+//RESET - in case store persistance goes awry
 export const reset = () => ({
   type: 'RESET'
 })

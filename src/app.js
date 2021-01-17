@@ -26,7 +26,9 @@ const jsx = (
 
 let hasRendered = false;
 const renderApp = () => {
+// Reset store data in case data persistance goes awry
 /*   store.dispatch(reset()); */
+
   if(!hasRendered) {
     ReactDOM.render(jsx, document.getElementById('app'));
     hasRendered = true;

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import PostList from './PostList';
-import PostsFilter from './PostsFilter'; //TEMPORARRILY REMOVED
+import PostsFilter from './PostsFilter';
 
 export const DashboardPage = () => (
     <React.Fragment>

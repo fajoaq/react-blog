@@ -80,7 +80,9 @@ export class EditPostPage extends React.Component {
   handleDeletePost = () => {   
     this.props.startRemovePost({postId: this.state.postId, authId: this.state.authId }).then(() => {
       this.props.configureModal();
-      // Oof
+      // configureModal can take in partial arguments
+      // side effect - toggle becomes uncontrolled
+      // hack
       this.props.configureModal({ initiateModal: true });
       this.props.toggleModal();
       this.props.history.push('/');

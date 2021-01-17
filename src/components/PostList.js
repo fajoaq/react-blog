@@ -3,18 +3,41 @@ import { connect } from 'react-redux';
 import { AiOutlineFileExclamation, AiOutlineFileExcel } from 'react-icons/ai';
 
 import { startSetPosts } from '../actions/posts';
+import { setVisiblePosts } from '../actions/posts';
 import PostListItem from './PostListItem';
 import Button from './Button';
 
 export class PostList extends React.Component {
     state = {
-        showDraftList: false
+        filters: this.props.filters,
+        visiblePosts: this.props.visiblePosts,
+        visibleDrafts: this.props.visibleDrafts
     }
 /*     componentDidMount = () => {
-        if(this.props.visiblePosts === 0 && this.props.draftList === 0) {
-            this.props.startSetPosts();
-        }
+        this.props.startSetPosts().then(() => {
+            const visiblePosts = setVisiblePosts(this.props.postList, this.props.filters);
+            const visibleDrafts = setVisiblePosts(this.props.draftList, this.props.filters);
+            this.setState(() => ({
+                postList: this.props.postList,
+                visibleDrafts,
+                visiblePosts
+            }));
+        });
     }; */
+    componentDidUpdate = () => {
+        if ((this.props.filters !== this.state.filters)
+            ||
+            (this.props.visibleDrafts !== this.state.visibleDrafts)
+            ||
+            (this.props.visiblePosts !== this.state.visiblePosts)
+        ) {
+            this.setState(() => ({
+                filters: this.props.filters,
+                visiblePosts: this.props.visiblePosts,
+                visibleDrafts: this.props.visibleDrafts
+            }));
+        }
+      };
     toggleDraftList = () =>{
         this.setState((prevState) => ({
             showDraftList: !prevState.showDraftList
@@ -23,7 +46,7 @@ export class PostList extends React.Component {
     render() {
         return (
             <React.Fragment>
-                {   (this.props.draftList.length) > 0 &&
+                {   (this.state.visibleDrafts && (this.state.visibleDrafts.length > 0)) &&
                     <div className="content-container">
                         { 
                             <Button className="button--link" onClick={ [ this.toggleDraftList ] }>
@@ -31,8 +54,8 @@ export class PostList extends React.Component {
                                     <span>Hide draft list <AiOutlineFileExcel /></span>
                                     :
                                     <span>
-                                        { this.props.draftList.length > 1 ? 
-                                            `Show ${this.props.draftList.length} draft posts ` 
+                                        { this.state.visibleDrafts.length > 1 ? 
+                                            `Show ${this.state.visibleDrafts.length} draft posts ` 
                                             : 
                                             `Show draft list `
                                         }
@@ -43,7 +66,7 @@ export class PostList extends React.Component {
                         }
                         <div className="list-body list-body--draft">
                         { !!this.state.showDraftList &&
-                            this.props.draftList.map((post) => {
+                            this.state.visibleDrafts.map((post) => {
                                 if(post) {
                                     return <PostListItem  key={ post.postId} post={ post } />
                                     }
@@ -52,11 +75,11 @@ export class PostList extends React.Component {
                         </div>
                     </div>
                 }
-                { (this.props.visiblePosts.length > 0) ?
+                { (this.state.visiblePosts.length > 0) ?
                     <div className="content-container">
                         <div className="list-body">
                         {
-                            this.props.visiblePosts.map((post) => {
+                            this.state.visiblePosts.map((post) => {
                                 if(post) {
                                     return <PostListItem  key={ post.postId} post={ post } />
                                     }
@@ -72,26 +95,14 @@ export class PostList extends React.Component {
     }
 };
 
-const mapStateToProps = (state) => {
-    return {
-        visiblePosts: state.postList,
-        draftList: state.draftList,
-        showDrafts: state.filters.showDrafts
-    }
- /*    let draftList = [];
-    return {
-        visiblePosts: state.postList.map((post) => {
-            console.log('POST', post);
-            if(post.postId) {
-                return post;
-            } else if(post.id && post.isPublished === false) {
-                if(state.auth.uid === post.postUid) { draftList.push(post) }
-                return;
-            }
-        }),
-        draftList,
-        showDrafts: state.filters.showDrafts
-    }; */
-};
+const mapStateToProps = (state) => ({
+    visiblePosts: setVisiblePosts(state.postList, state.filters),
+    visibleDrafts: setVisiblePosts(state.draftList, state.filters),
+    filters: state.filters,
+    showDrafts: state.filters.showDrafts
+});
+const mapDispatchToProps = (dispatch) => ({
+  startSetPosts: () => dispatch(startSetPosts())
+});
 
-export default connect(mapStateToProps)(PostList);
+export default connect(mapStateToProps, mapDispatchToProps)(PostList);
