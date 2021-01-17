@@ -29,3 +29,8 @@ export const setStoreFilters = (filters = {}) => ({
     type: 'SET_DATE_FILTER',
     dateFilter
 }); */
+
+//RESET 
+export const reset = () => ({
+    type: 'RESET'
+  })

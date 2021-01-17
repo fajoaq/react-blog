@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import validator from 'validator';
 
-import { startSetSingleUser } from '../actions/users';
-import { startSetSinglePost, startRemovePost, startUpdatePost } from '../actions/posts';
+import {  startRemovePost, startUpdatePost } from '../actions/posts';
 import { configureModal, toggleModal } from '../actions/modal';
 import PostHeader from './PostHeader';
 import PostForm from './PostForm';
@@ -15,35 +14,20 @@ export class EditPostPage extends React.Component {
     this.onInitiateDelete = this.onInitiateDelete.bind(this);
     this.handleSavepost = this.handleSavepost.bind(this);
     this.handleDeletePost = this.handleDeletePost.bind(this);
+    this.props.configureModal();
     this.state = {
       postTitle: this.props.post ? this.props.post.postTitle : '',
       postBody: this.props.post  ? validator.unescape(this.props.post.postBody) : '',
-      postAuthor: this.props.post  ? this.props.post.postAuthor : '',
+      authorName: this.props.post  ? this.props.post.authorName : 'Anon',
       created: this.props.post  ? this.props.post.created : '',
-      id: this.props.post  ? this.props.post.id : '',
-      postUid: this.props.post  ? this.props.post.postUid : '',
+      postId: this.props.post  ? this.props.post.postId : '',
+      authId: this.props.post  ? this.props.post.authId : '',
       isPublished: this.props.post ? this.props.post.isPublished : false
     };
   };
-  componentDidMount() {
-    // When a page is refreshed or when entry is from anywhere other 
-    // than dashboard page, fetch data for this single post
-    if(!!!this.props.post) {
-      this.props.startSetSinglePost(undefined, this.props.postId).then((post) => {
-        this.props.startSetSingleUser(post.postUid).then((user) => {
-          this.setState((prevState) => ({
-            ...prevState,
-            ...this.props.post,
-            postBody: validator.unescape(this.props.post.postBody),
-            postAuthor: user.displayName
-          }));
-        });
-      });
-    } 
-  };
   handleTitleChange = ({target}) => {
     this.setState(() => ({
-      postTitle: target.value.trim()
+      postTitle: target.value
     }));
     this.props.configureModal({
       dataHasChanged: true
@@ -58,16 +42,16 @@ export class EditPostPage extends React.Component {
     });
   };
   handleSavepost = () => {
-    // Validate, escape, then save data
+    // trim, validate, escape, then save data
+    const postTitle = this.state.postTitle.trim();
     if(validator.isAlphanumeric(this.state.postTitle.replace(/ /g,''))) {
       const postData = {
         ...this.state,
+        postTitle,
         postBody: validator.escape(this.state.postBody),
         isPublished: true
       }
-      this.props.configureModal({
-        dataHasChanged: false
-      });
+      this.props.configureModal();
       this.props.startUpdatePost(postData).then(() => {
         this.props.history.push('/');
       });
@@ -93,12 +77,11 @@ export class EditPostPage extends React.Component {
     );
     this.props.toggleModal();
   };
-  handleDeletePost = () => {
-    this.props.configureModal({
-      dataHasChanged: false
-    });
-    
-    this.props.startRemovePost({id: this.state.id, postUid: this.state.postUid }).then(() => {
+  handleDeletePost = () => {   
+    this.props.startRemovePost({postId: this.state.postId, authId: this.state.authId }).then(() => {
+      this.props.configureModal();
+      // Oof
+      this.props.configureModal({ initiateModal: true });
       this.props.toggleModal();
       this.props.history.push('/');
     });
@@ -106,7 +89,7 @@ export class EditPostPage extends React.Component {
   render() {
     return (
       <React.Fragment>
-        { (!!this.state.postUid) ? 
+        { (!!this.state.authId) ? 
           <div>
             <PostHeader post={ this.props.post } isAuthor={ true } />
             <div className="content-container">
@@ -141,19 +124,22 @@ export class EditPostPage extends React.Component {
 
 const mapStateToProps = (state, props) => {
   const postId = props.match.params.id
+  let post = state.draftList.find((post) => post.postId === postId);
+
+  if(!post) {
+    post = state.postList.find((post) => post.postId === postId);
+  }
   return{
-    postId,
-    post: state.postList.find((post) => post.id === postId)
+    post: post,
+    postId
   }
 };
 
 const mapDispatchToProps = (dispatch) => ({
   configureModal: (parameters) => dispatch(configureModal(parameters)),
   toggleModal: () => dispatch(toggleModal()),
-  startSetSingleUser: (uid) => dispatch(startSetSingleUser(uid)),
-  startSetSinglePost: (uid, id) => dispatch(startSetSinglePost(uid, id)),
   startUpdatePost: (post) => dispatch(startUpdatePost(post)),
-  startRemovePost: (id, postUid) => dispatch(startRemovePost(id, postUid))
+  startRemovePost: (id, authId) => dispatch(startRemovePost(id, authId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditPostPage);

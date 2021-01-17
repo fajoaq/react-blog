@@ -6,3 +6,8 @@ export const configureModal = (parameters) => ({
 export const toggleModal = () => ({
     type: 'TOGGLE_MODAL'
 });
+
+//RESET 
+export const reset = () => ({
+    type: 'RESET'
+  })

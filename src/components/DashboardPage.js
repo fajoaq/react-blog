@@ -1,11 +1,11 @@
 import React from 'react';
 
 import PostList from './PostList';
-import FilterPosts from './PostsFilter';
+import PostsFilter from './PostsFilter'; //TEMPORARRILY REMOVED
 
 export const DashboardPage = () => (
     <React.Fragment>
-      <FilterPosts />
+      <PostsFilter />
       <PostList />
     </React.Fragment>
 );

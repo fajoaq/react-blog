@@ -31,10 +31,11 @@ export const startSetSingleUser = (uid) => {
   };
 };
 
-export const startChangeDisplayName = (uid, displayName) => {
+export const startChangeDisplayName = (displayName) => {
   console.log('startChangeDisplayName');
-  return (dispatch) => {
-      return database.ref(`/users/${uid}`).update({displayName}).then(() => {
+  return (dispatch, getState) => {
+      const uid = getState().auth.uid;
+      return database.ref(`/users/${uid}/`).update({displayName}).then(() => {
         dispatch(updateUser({uid, displayName}));
         firebase.auth().currentUser.updateProfile({
           displayName
@@ -51,4 +52,9 @@ export const setUsers = (users) => ({
 export const updateUser = (user) => ({
   type: 'UPDATE_USER',
   user
+})
+
+//RESET 
+export const reset = () => ({
+  type: 'RESET'
 })

@@ -9,23 +9,23 @@ import { AiFillPlusCircle } from 'react-icons/ai';
 
 export class AddPost extends React.Component {
     onAddPost = () => {
-        let post = {};
-        this.props.startSetSingleUser(this.props.userUid).then((user) => {
-        post = {
-                postTitle: "new post",
-                postBody: "This is the post body",
-                postAuthor: user.displayName,
-                created: moment().valueOf()
-            };
-            console.log(post);
-            
-            this.props.startAddPost(post).then((ref) => {
-                history.push({
-                    pathname: `/edit/${ref.id}`, 
-                    state: {uid: ref.postUid}
-                });
+        /* let post = {}; */
+        const post = {
+            postTitle: "new post",
+            postBody: "This is the post body",
+/*             postAuthor: user.displayName, */
+            created: moment().valueOf()
+        };
+        
+        this.props.startAddPost(post).then((post) => {
+            history.push({
+                pathname: `/edit/${post.postId}`, 
+                state: {post}
             });
-        });        
+        });
+/*         this.props.startSetSingleUser(this.props.userUid).then((user) => {
+ 
+        });    */     
     };
 
     render() {

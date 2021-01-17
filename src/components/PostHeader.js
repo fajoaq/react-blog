@@ -57,20 +57,20 @@ export class PostHeader extends React.Component {
                             { (this.props.post.isAuthor) ? 'Edit Post' : `${this.props.post.postTitle}` }
                                 <div className="page-header__author">
                                 { this.props.isAuthor ? 
-                                    <input type="text" onChange={ this.handleChangeDisplayName } placeholder={`by ${ this.props.displayName}`}/>
+                                    <input type="text" onChange={ this.handleChangeDisplayName } placeholder={`by ${ this.props.post.authorName}`}/>
                                     :
-                                    `by| ${this.props.displayName}`
+                                    `by| ${this.props.post.authorName}`
                                 }
                                 </div>
                             </h1>
                             { (this.props.post.isAuthor) ? 
                                 <div>
                                     <Link to={{
-                                        pathname: `/post/${this.props.post.id}`,
-                                        uid: this.props.post.postUid
+                                        pathname: `/post/${this.props.post.postId}`,
+                                        uid: this.props.post.authId
                                         }} className="page-header__link">
                                         <span className="page-header__link--title">{"Link readable at: "}</span>
-                                        <span>{ `https://app.com/post/${this.props.post.id}`}</span>
+                                        <span>{ `https://app.com/post/${this.props.post.postId}`}</span>
                                     </Link>
                                 </div>
                                 :
@@ -88,7 +88,7 @@ export class PostHeader extends React.Component {
 };
 
 const mapStateToProps = (state) => ({
-    displayName: state.userList[0].displayName,
+/*     displayName: state.userList[0].displayName, */
     dataHasChanged: state.modal.dataHasChanged,
     uid: state.auth.uid
   });
@@ -96,7 +96,7 @@ const mapStateToProps = (state) => ({
 const mapDistpatchToProps = (dispatch) => ({
     configureModal: (parameters) => dispatch(configureModal(parameters)),
     toggleModal: () => dispatch(toggleModal()),
-    startChangeDisplayName: (uid, displayName) => dispatch(startChangeDisplayName(uid, displayName))
+    startChangeDisplayName: (uid, authorName) => dispatch(startChangeDisplayName(uid, authorName))
 });
 
 export default connect(mapStateToProps, mapDistpatchToProps)(PostHeader);

@@ -6,30 +6,48 @@ import { getSinglePost } from '../actions/posts';
 import Header from '../components/Header';
 
 export const PrivateRoute = ({ 
+    post,
     isAuthenticated,
-    isValidId,
     isAuthor,
     postId,
     component: Component,
     ...rest
 }) => (
     <Route {...rest} component={(props) => (
-        (isValidId && isAuthenticated && isAuthor) ? (
+        (isAuthenticated && isAuthor) ? (
             <div>
                 <Header isAuthenticated={ isAuthenticated } isAuthor={ isAuthor } />
-                <Component {...props}/>
+                <Component {...props} post={post}/>
             </div>    
         ) : (
             <div>
-                <Redirect to={`/post/${postId}`} />
+                <Redirect to={`/post/${postId}`} post={post}/>
             </div>  
         )
     )}/>
 );
 
 const mapStateToProps = (state, props) => {
-    /* console.log(props, state) */
-    /* console.log('here'); */
+/*     console.log('private', state, props); */
+    let post = state.draftList.find((draft) => draft.postId === props.computedMatch.params.id);
+    if(!post) {
+        post = state.postList.find((post) => post.postId === props.computedMatch.params.id);
+    }
+    if(post) {
+        return { 
+            post,
+            postId: post.postId,
+            isAuthenticated: !!state.auth.uid,
+            isAuthor: post.authId === state.auth.uid
+        }
+    } else {
+        return {
+            postId: props.computedMatch.params.id,
+            isAuthenticated: !!state.auth.id,
+            isAuthor: state.auth.id === props.location.state.uid
+        }
+    }
+/*     console.log(props.location.state);
     const postId = props.computedMatch.params.id
     let postUid = '';
     let isValidId = false;
@@ -39,14 +57,18 @@ const mapStateToProps = (state, props) => {
         postUid = props.location.state.uid;
         isAuthor = postUid === state.auth.uid;
         isValidId = true;
-    }
-
-    return {
+    } */
+    /* console.log(postUid, isValidId, isAuthor); */
+    /* console.log('PRIVATEROUTE', props, state); */
+/*     return {
         isAuthenticated: !!state.auth.uid,
         isValidId,
         isAuthor,
         postId
-    };
+    }; */
+    return {
+        
+    }
 };
 
 export default connect(mapStateToProps)(PrivateRoute);

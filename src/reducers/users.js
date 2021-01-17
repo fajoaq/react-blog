@@ -3,6 +3,8 @@ export default (state = [], action) => {
     switch(action.type) {
         case 'SET_USERS':
             return action.users;
+        case 'RESET':
+            return [];
         default:
             return state;
     };

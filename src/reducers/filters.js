@@ -14,6 +14,8 @@ export default (state = filtersReducerDefaultState, action) => {
         ...state,
         ...action.filters
       }
+    case 'RESET':
+      return {};
     default:
       return state;
   };

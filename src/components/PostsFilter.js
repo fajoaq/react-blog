@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import LoadingPage from './LoadingPage';
-import { startSetUsers } from '../actions/users';
-import { setPosts, startSetPosts } from '../actions/posts';
+import { startSetPosts } from '../actions/posts';
 import { setStoreFilters } from '../actions/filters';
 
 export class PostsFilter extends React.Component {
@@ -14,6 +13,7 @@ export class PostsFilter extends React.Component {
       hasFilters: false
     }
     componentDidMount() {
+      this.props.startSetPosts();
       const filters = {
         textFilter: this.props.filters.textFilter,
         sortBy: this.props.filters.sortBy,
@@ -23,13 +23,6 @@ export class PostsFilter extends React.Component {
       this.setState(() => ({
         ...filters
       }))
-      this.setUserAndPosts(filters);
-    }
-
-    setUserAndPosts = (filters) => {
-      this.props.startSetUsers().then((userList) => {
-        this.props.startSetPosts(filters, userList);
-      });
     }
     
     onSortChange = ({ target }) => {
@@ -47,10 +40,7 @@ export class PostsFilter extends React.Component {
       this.setState(() => ({
         ...filters
       }));
-      
-      this.setUserAndPosts(filters);
       this.props.setStoreFilters(filters);
-      console.log('onSortChange');
     };
 
     onDatesFilterChange = ({ target }) => {
@@ -63,9 +53,7 @@ export class PostsFilter extends React.Component {
       this.setState(() => ({
         ...filters
       }));
-      this.setUserAndPosts(filters);
       this.props.setStoreFilters(filters);
-      console.log('onDatesFilterChange');
     };
 
     onTextChange = ({ target }) => {
@@ -78,9 +66,7 @@ export class PostsFilter extends React.Component {
       this.setState(() => ({
         ...filters
       }));
-      this.setUserAndPosts(filters);
       this.props.setStoreFilters(filters);
-      console.log('onTextChange');
     };
     onClearFilters = () => {
       const filters = {
@@ -92,7 +78,6 @@ export class PostsFilter extends React.Component {
       this.setState(() => ({
         ...filters
       }));
-      this.setUserAndPosts(filters);
       this.props.setStoreFilters(filters);
     };
     render() {
@@ -153,15 +138,12 @@ export class PostsFilter extends React.Component {
 };
 
 const mapStateToProps = (state) => ({
-    postList: state.postList,
     filters: state.filters
   });
 
 const mapDispatchToProps = (dispatch) => ({
-    setPosts: (posts, filters) => dispatch(setPosts(posts, filters)),
-    startSetUsers: () => dispatch(startSetUsers()),
-    startSetPosts: (filters, userList) => dispatch(startSetPosts(filters, userList)),
-    setStoreFilters: (filters) => dispatch(setStoreFilters(filters)),
+  startSetPosts: () => dispatch(startSetPosts()),
+  setStoreFilters: (filters) => dispatch(setStoreFilters(filters))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostsFilter);

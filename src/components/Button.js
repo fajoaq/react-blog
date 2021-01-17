@@ -10,7 +10,7 @@ export class Button extends React.Component {
         /* this.props.onClick(this.callback); */
         
         this.props.onClick.forEach((func) => {
-            func();
+            if(func) func();
         });
     };
     render() {

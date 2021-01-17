@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setStoreFilters } from '../actions/filters';
+import { AiOutlineFileExclamation, AiOutlineFileExcel } from 'react-icons/ai';
 
+import { startSetPosts } from '../actions/posts';
 import PostListItem from './PostListItem';
 import Button from './Button';
 
@@ -9,6 +10,11 @@ export class PostList extends React.Component {
     state = {
         showDraftList: false
     }
+/*     componentDidMount = () => {
+        if(this.props.visiblePosts === 0 && this.props.draftList === 0) {
+            this.props.startSetPosts();
+        }
+    }; */
     toggleDraftList = () =>{
         this.setState((prevState) => ({
             showDraftList: !prevState.showDraftList
@@ -17,28 +23,29 @@ export class PostList extends React.Component {
     render() {
         return (
             <React.Fragment>
-                {   (this.props.draftPosts.length) > 0 &&
+                {   (this.props.draftList.length) > 0 &&
                     <div className="content-container">
                         { 
                             <Button className="button--link" onClick={ [ this.toggleDraftList ] }>
                                 { this.state.showDraftList ? 
-                                    `Hide draft list >>`
+                                    <span>Hide draft list <AiOutlineFileExcel /></span>
                                     :
                                     <span>
-                                        { this.props.draftPosts.length > 1 ? 
-                                            `Show ${this.props.draftPosts.length} draft posts >>` 
+                                        { this.props.draftList.length > 1 ? 
+                                            `Show ${this.props.draftList.length} draft posts ` 
                                             : 
-                                            `Show draft list >>`
+                                            `Show draft list `
                                         }
+                                        <AiOutlineFileExclamation />
                                     </span>
                                 }
                             </Button>
                         }
                         <div className="list-body list-body--draft">
-                        { this.state.showDraftList &&
-                            this.props.draftPosts.map((post) => {
+                        { !!this.state.showDraftList &&
+                            this.props.draftList.map((post) => {
                                 if(post) {
-                                    return <PostListItem  key={ post.id} post={ post } />
+                                    return <PostListItem  key={ post.postId} post={ post } />
                                     }
                                 })
                         }
@@ -51,7 +58,7 @@ export class PostList extends React.Component {
                         {
                             this.props.visiblePosts.map((post) => {
                                 if(post) {
-                                    return <PostListItem  key={ post.id} post={ post } />
+                                    return <PostListItem  key={ post.postId} post={ post } />
                                     }
                                 })
                         }
@@ -66,19 +73,25 @@ export class PostList extends React.Component {
 };
 
 const mapStateToProps = (state) => {
-    let draftPosts = [];
+    return {
+        visiblePosts: state.postList,
+        draftList: state.draftList,
+        showDrafts: state.filters.showDrafts
+    }
+ /*    let draftList = [];
     return {
         visiblePosts: state.postList.map((post) => {
-            if(post.id && post.isPublished === true) {
+            console.log('POST', post);
+            if(post.postId) {
                 return post;
             } else if(post.id && post.isPublished === false) {
-                if(state.auth.uid === post.postUid) { draftPosts.push(post) }
+                if(state.auth.uid === post.postUid) { draftList.push(post) }
                 return;
             }
         }),
-        draftPosts,
+        draftList,
         showDrafts: state.filters.showDrafts
-    };
+    }; */
 };
 
 export default connect(mapStateToProps)(PostList);

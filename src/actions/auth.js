@@ -1,4 +1,4 @@
-import database, { firebase, googleAuthProvider, gitHubAuthProvider } from '../firebase/firebase';
+import { firebase, googleAuthProvider, gitHubAuthProvider } from '../firebase/firebase';
 import { history } from '../routers/AppRouter';
 
 export const login = ({ uid }) => ({
@@ -22,6 +22,7 @@ export const startLogin = ({ target }) => {
     return (dispatch) => firebase.auth().signInWithPopup(provider).then((result) => {
 /*         console.log(result.user.displayName);
         dispatch(setDisplayName(result.user.displayName));   */          
+/*         dispatch(startChangeDisplayName()); */
         if(history.location.pathname.includes('post')) {
             history.push('/');
         }
@@ -43,3 +44,8 @@ export const startLogout = () => {
         logout();
     };
 };
+
+//RESET 
+export const reset = () => ({
+    type: 'RESET'
+  })

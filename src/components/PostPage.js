@@ -13,16 +13,16 @@ export class PostPage extends React.Component {
     postBody: this.props.post  ? validator.unescape(this.props.post.postBody) : '',
     postAuthor: this.props.post  ? this.props.post.postAuthor : '',
     created: this.props.post  ? this.props.post.created : '',
-    id: this.props.post  ? this.props.post.id : '',
-    postUid: this.props.post  ? this.props.post.postUid : '',
+    postId: this.props.post  ? this.props.post.postId : '',
+    authId: this.props.post  ? this.props.post.authId : '',
     isPublished: this.props.post ? this.props.post.isPublished : false
   };
   componentDidMount = () => {
     // When a page is refreshed or when entry is from anywhere other 
     // than dashboard page, fetch data for this single post
-    if(!!!this.props.post) {
+/*     if(!!!this.props.post) {
       this.props.startSetSinglePost(undefined, this.props.postId).then((post) => {
-        this.props.startSetSingleUser(post.postUid).then((user) => {
+        this.props.startSetSingleUser(post.authId).then((user) => {
           const postBody = validator.unescape(post.postBody);
           this.setState((prevState) => ({
             ...prevState,
@@ -32,7 +32,7 @@ export class PostPage extends React.Component {
           }));
         });
       });
-    }
+    } */
   };
   render() {
     return (
@@ -61,8 +61,9 @@ export class PostPage extends React.Component {
 const mapStateToProps = (state, props) => {
   const postId = props.match.params.id;
   return{
-    postId,
-    post: state.postList.find((post) => post.id === postId)
+    postId
+    /* ,
+    post: state.postList.find((post) => post.postId === postId) */
   }
 };
 const mapDispatchToProps = (dispatch) => ({

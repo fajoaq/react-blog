@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-
 import AppRouter, { history } from './routers/AppRouter';
 import configureStore from './store/configureStore';
 import { firebase } from './firebase/firebase';
+import { PersistGate } from 'redux-persist/integration/react'
 
+import { reset } from './actions/posts';
 import { login, logout } from './actions/auth';
 import LoadingPage from './components/LoadingPage';
 
@@ -13,15 +14,19 @@ import 'normalize.css/normalize.css';
 import './styles/styles.scss';
 import 'react-dates/lib/css/_datepicker.css';
 
-const store = configureStore();
+const { persistor, store } = configureStore()
 
 const jsx = (
   <Provider store={store}>
-    <AppRouter />
+    <PersistGate loading={ <LoadingPage /> } persistor={ persistor }>
+      <AppRouter />
+    </PersistGate>
   </Provider>
 );
+
 let hasRendered = false;
 const renderApp = () => {
+/*   store.dispatch(reset()); */
   if(!hasRendered) {
     ReactDOM.render(jsx, document.getElementById('app'));
     hasRendered = true;
