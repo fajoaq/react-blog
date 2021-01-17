@@ -22,6 +22,8 @@
 .modal__subtitle {
     font-weight: 600;
     text-align: center;
+    padding: 0 $s-size;
+    max-width: 35rem;
 }
 
 .ReactModalPortal>div {

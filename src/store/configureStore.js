@@ -9,6 +9,7 @@ import draftsReducer from '../reducers/drafts'
 import PostsReducer from '../reducers/posts';
 import filtersReducer from '../reducers/filters';
 import modalReducer from '../reducers/modal';
+import errorReducer  from '../reducers/error';
 
 //WE ENABLE ACTION TRACING WHEN TESTING- DISABLE WHEN NOT TESTING FOR PERFORMANCE
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -28,7 +29,8 @@ export default () => {
     postList: PostsReducer,
     draftList: draftsReducer,
     filters: filtersReducer,
-    modal: modalReducer
+    modal: modalReducer,
+    errors: errorReducer
   };
 
   const persistCombinedReducers = persistCombineReducers(persistConfig, rootReducer);

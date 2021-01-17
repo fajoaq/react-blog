@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import validator from 'validator';
 
 import {  startRemovePost, startUpdatePost } from '../actions/posts';
+import { setErrorMessage, clearErrorMessage } from '../actions/error';
 import { configureModal, toggleModal } from '../actions/modal';
 import PostHeader from './PostHeader';
 import PostForm from './PostForm';
@@ -26,12 +27,17 @@ export class EditPostPage extends React.Component {
     };
   };
   handleTitleChange = ({target}) => {
-    this.setState(() => ({
-      postTitle: target.value
-    }));
-    this.props.configureModal({
-      dataHasChanged: true
-    });
+    if(target.value.length < 60) {
+      this.setState(() => ({
+        postTitle: target.value
+      }));
+      this.props.configureModal({
+        dataHasChanged: true
+      });
+      this.props.clearErrorMessage('title-limit');
+    } else {
+      this.props.setErrorMessage('title-limit', "Title charater limit reached");
+    }
   };
   handleBodyTextChange = ({target}) => {
     this.setState(() => ({
@@ -141,7 +147,9 @@ const mapDispatchToProps = (dispatch) => ({
   configureModal: (parameters) => dispatch(configureModal(parameters)),
   toggleModal: () => dispatch(toggleModal()),
   startUpdatePost: (post) => dispatch(startUpdatePost(post)),
-  startRemovePost: (id, authId) => dispatch(startRemovePost(id, authId))
+  startRemovePost: (id, authId) => dispatch(startRemovePost(id, authId)),
+  setErrorMessage: (id, message) => dispatch(setErrorMessage(id, message)),
+  clearErrorMessage: (id) => dispatch(clearErrorMessage(id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditPostPage);
