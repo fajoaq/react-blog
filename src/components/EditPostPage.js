@@ -83,7 +83,7 @@ export class EditPostPage extends React.Component {
       // configureModal can take in partial arguments
       // side effect - toggle becomes uncontrolled
       // hack
-      this.props.configureModal({ initiateModal: true });
+      this.props.configureModal({ initiateModal: true }); // Will resolve to false
       this.props.toggleModal();
       this.props.history.push('/');
     });

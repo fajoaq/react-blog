@@ -7,7 +7,6 @@ const defaultModalState = {
 }
 
 export default (state = defaultModalState, action) => {
-    /* console.log(action.type); */
     switch(action.type) {
         case 'TOGGLE_MODAL':
             const newModalState = !state.initiateModal

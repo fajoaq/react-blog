@@ -1,6 +1,4 @@
 // Filters Reducer
-import postsSelector from '../selectors/posts';
-
 const filtersReducerDefaultState = {
   textFilter: '',
   sortBy: 'date',

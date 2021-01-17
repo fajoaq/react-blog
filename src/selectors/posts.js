@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-// Get visible expenses
+// Get visible posts / drafts
 
 export default (posts, { textFilter, sortBy, dateFilter }) => {
   let dateFilterValue = 0;
@@ -22,8 +22,6 @@ export default (posts, { textFilter, sortBy, dateFilter }) => {
   return posts.filter((post) => {
     const createdAtMoment = moment(post.created).valueOf();
     const dateFilterMatch = dateFilterValue ? (dateFilterValue <= createdAtMoment) : true;
-/*     const dateFilterMatch = dateFilter ? dateFilter.isSameOrBefore(createdMoment, 'day') : true; */
-/*     const endDateMatch = endDate ? endDate.isSameOrAfter(createdMoment, 'day') : true; */
     const textMatch = !!textFilter ? post.postTitle.toLowerCase().includes(textFilter.toLowerCase()) : true;
 
     return dateFilterMatch && textMatch;

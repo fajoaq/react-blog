@@ -1,5 +1,4 @@
 export default (state = [], action) => {
-    /* console.log(action.type); */
     switch(action.type) {
         case 'ADD_POST':
             return [
@@ -15,10 +14,6 @@ export default (state = [], action) => {
             } else return state;
         case 'SET_POSTS':
             return action.posts;
-        case 'SET_SINGLE_POST':
-            return [ 
-                action.post
-            ];
         case 'UPDATE_POST':
             const updateList = state.filter((post) => post.postId !== action.post.postId );
             return [

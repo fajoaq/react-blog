@@ -13,17 +13,6 @@ export class PostList extends React.Component {
         visiblePosts: this.props.visiblePosts,
         visibleDrafts: this.props.visibleDrafts
     }
-/*     componentDidMount = () => {
-        this.props.startSetPosts().then(() => {
-            const visiblePosts = setVisiblePosts(this.props.postList, this.props.filters);
-            const visibleDrafts = setVisiblePosts(this.props.draftList, this.props.filters);
-            this.setState(() => ({
-                postList: this.props.postList,
-                visibleDrafts,
-                visiblePosts
-            }));
-        });
-    }; */
     componentDidUpdate = () => {
         if ((this.props.filters !== this.state.filters)
             ||

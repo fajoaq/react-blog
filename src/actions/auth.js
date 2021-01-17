@@ -1,11 +1,7 @@
 import { firebase, googleAuthProvider, gitHubAuthProvider } from '../firebase/firebase';
 import { history } from '../routers/AppRouter';
 
-export const login = ({ uid }) => ({
-    type: 'LOGIN',
-    uid
-});
-
+// Set provider
 const setProvider = (id) => {
     switch(id) {
         case 'googleLogin':
@@ -19,31 +15,28 @@ const setProvider = (id) => {
 // START LOGIN
 export const startLogin = ({ target }) => {
     const provider = setProvider(target.id);
-    return (dispatch) => firebase.auth().signInWithPopup(provider).then((result) => {
-/*         console.log(result.user.displayName);
-        dispatch(setDisplayName(result.user.displayName));   */          
-/*         dispatch(startChangeDisplayName()); */
+    return () => firebase.auth().signInWithPopup(provider).then(() => {
         if(history.location.pathname.includes('post')) {
             history.push('/');
         }
     });
 };
-
-export const setDisplayName = (displayName) => ({
-    type: 'SET_DISPLAY_NAME',
-    displayName
-})
-
-export const logout = () => ({
-    type: 'LOGOUT'
+//Log in
+export const login = ({ uid }) => ({
+    type: 'LOGIN',
+    uid
 });
-
+//Start log out
 export const startLogout = () => {
     return () => {
         firebase.auth().signOut();
         logout();
     };
 };
+// Log out
+export const logout = () => ({
+    type: 'LOGOUT'
+});
 
 //RESET 
 export const reset = () => ({

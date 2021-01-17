@@ -33,7 +33,11 @@ export const PostModal = (props) => (
             <h3 className="modal__title">{ props.modalTitle ? props.modalTitle : 'Remove Post?'} </h3>
             <p className="modal__subtitle">{ props.contentLabel }</p>
             <div className="button-group">
-                { props.modalButtons ? createModalButtons(props.modalButtons) : <button>Okay</button> }
+                { props.modalButtons ? 
+                    createModalButtons(props.modalButtons) 
+                    : 
+                    <button onClick={ props.handleClearModal }>Okay</button> 
+                }
             </div>
         </div>
     </Modal>

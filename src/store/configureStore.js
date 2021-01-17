@@ -43,20 +43,3 @@ export default () => {
 
   return {store, persistor};
 };
-
-
-
-/* export default () => {
-  const store = createStore(
-    combineReducers({
-      auth: authReducer,
-      postList: PostsReducer,
-      draftList: draftsReducer,
-      filters: filtersReducer,
-      modal: modalReducer
-    }),
-    composeEnhancers(applyMiddleware(thunk))
-  );
-
-  return store;
-}; */
