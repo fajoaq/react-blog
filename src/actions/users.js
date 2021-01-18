@@ -4,7 +4,7 @@ export const startChangeDisplayName = (displayName) => {
   return (dispatch, getState) => {
       const uid = getState().auth.uid;
       return database.ref(`/user/${uid}/`).update({displayName}).then(() => {
-        dispatch(updateUser({displayName: displayName}));
+        dispatch(updateUser({displayName}));
         firebase.auth().currentUser.updateProfile({
           displayName
         });

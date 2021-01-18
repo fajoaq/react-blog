@@ -6,7 +6,8 @@ import postsSelector from '../selectors/posts';
 export const startAddPost = (postData = {}) => {
   return (dispatch, getState) => {
     const uid = getState().auth.uid;
-    const authorName = getState().auth.displayName;
+    const displayName = getState().auth.displayName;
+    const isPublished = false;
 
     const {
       postTitle = '',
@@ -17,13 +18,13 @@ export const startAddPost = (postData = {}) => {
 
     let post = { postTitle, postBody, created, authId };
     
-    return database.ref(`/user/${uid}`).update({displayName: authorName}).then(() => {
+    return database.ref(`/user/${uid}/`).update({displayName}).then(() => {
       return database.ref('/posts').push(post).then((ref) => {
-        return database.ref(`/postRef/${uid}/${ref.key}`).update({isPublished: false}).then(() => {
+        return database.ref(`/postRef/${uid}/${ref.key}/`).update({isPublished}).then(() => {
           post = {
             ...post,
             postId: ref.key,
-            authorName
+            authorName: displayName
           }
           dispatch(addDraft({
             ...post
@@ -58,7 +59,7 @@ export const startRemovePost = ( {postId, authId} ) => {
 export const startSetPosts = (filters = {}) => {
   return (dispatch, getState) => {
     return database.ref('/user').once('value').then((users) => {
-      return database.ref(`/postRef/`).once('value', (puRef) => {
+      return database.ref(`/postRef/`).once('value').then((puRef) => {
         return database.ref(`/posts/`).orderByChild('authId').once('value', ((pRef) => {
           let authorList = [];
           let postList = [];
@@ -108,6 +109,7 @@ export const startSetPosts = (filters = {}) => {
 };
 //START UPDATE_POST
 export const startUpdatePost = (post) => {
+  const isPublished = true;
   const updates = {
     authId: post.authId,
     created: post.created,
@@ -118,7 +120,7 @@ export const startUpdatePost = (post) => {
     const uid = getState().auth.uid;
     if(post.authId === uid) {
       return database.ref(`/posts/${post.postId}`).update({...updates}).then(() => {
-        return database.ref(`/postRef/${uid}/${post.postId}`).update({isPublished: true}).then(() => {
+        return database.ref(`/postRef/${uid}/${post.postId}/`).update({isPublished}).then(() => {
           dispatch(updatePost(post));
           dispatch(removeDraft(post.postId));
         })
