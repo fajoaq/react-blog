@@ -8,13 +8,15 @@ export default (state = [], action) => {
                     action.error
                 ];
             } else return state;
-        case 'CLEAR_ERROR_MESSAGE':
-            const error = state.find((e) => e.id === action.error.id);
+        case 'CLEAR_ERROR':
+            const error = state.find((e) => e.id === action.id);
             if(error) {
                 return state.filter((e) => {
-                    return e.id !== action.error.id;
+                    return e.id !== action.id;
                 });
             } else return state;
+        case 'CLEAR_ERROR_MESSAGES':
+            return [];
         case 'RESET':
             return [];
         default:

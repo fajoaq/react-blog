@@ -9,6 +9,8 @@ import { AiOutlineDoubleLeft } from 'react-icons/ai';
 import { configureModal, toggleModal } from '../actions/modal';
 import { history } from '../routers/AppRouter';
 import { startChangeDisplayName } from '../actions/users';
+import { setErrorMessage, clearErrorMessage } from '../actions/error';
+import Error from './Error';
 
 export class PostHeader extends React.Component {
     handleAuthBackButton = () => {
@@ -35,7 +37,13 @@ export class PostHeader extends React.Component {
         history.push('/dashboard');
     };
     handleChangeDisplayName = ({target}) => {
-        this.props.startChangeDisplayName(validator.escape(target.value));
+        if(target.value.length < 16) {
+            this.props.startChangeDisplayName(validator.escape(target.value));
+            this.props.clearErrorMessage('name-limit');
+          } else {
+            target.value = target.value.substring(0,target.value.length-1);
+            this.props.setErrorMessage('name-limit', "Display name character limit reached.");
+          }
     };
     render() {
         return (
@@ -56,6 +64,7 @@ export class PostHeader extends React.Component {
                             <h1 className="page-header__title">
                             { (this.props.post.isAuthor) ? 'Edit Post' : `${this.props.post.postTitle}` }
                                 <div className="page-header__author">
+                                <Error id='name-limit' />
                                 { this.props.isAuthor ? 
                                     <input type="text" onChange={ this.handleChangeDisplayName } placeholder={`by ${ this.props.post.authorName}`}/>
                                     :
@@ -95,7 +104,9 @@ const mapStateToProps = (state) => ({
 const mapDistpatchToProps = (dispatch) => ({
     configureModal: (parameters) => dispatch(configureModal(parameters)),
     toggleModal: () => dispatch(toggleModal()),
-    startChangeDisplayName: (authorName) => dispatch(startChangeDisplayName(authorName))
+    startChangeDisplayName: (authorName) => dispatch(startChangeDisplayName(authorName)),
+    setErrorMessage: (id, message) => dispatch(setErrorMessage(id, message)),
+    clearErrorMessage: (id) => dispatch(clearErrorMessage(id))
 });
 
 export default connect(mapStateToProps, mapDistpatchToProps)(PostHeader);

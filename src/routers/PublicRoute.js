@@ -14,7 +14,7 @@ export const PublicRoute = ({
         ( history.location.pathname === '/') ? 
             <Redirect to={'/dashboard'} />
         : 
-        <div>
+        <div className='app__container'>
             <Header isAuthenticated={ isAuthenticated } />
             <Component {...props}/>
         </div>  

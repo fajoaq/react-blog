@@ -9,6 +9,8 @@ import PostHeader from './PostHeader';
 import PostForm from './PostForm';
 import Button from './Button';
 
+let textareaCount = undefined;
+
 export class EditPostPage extends React.Component {
   constructor(props) {
     super(props)
@@ -25,6 +27,8 @@ export class EditPostPage extends React.Component {
       authId: this.props.post  ? this.props.post.authId : '',
       isPublished: this.props.post ? this.props.post.isPublished : false
     };
+    textareaCount = undefined;
+    this.props.clearErrorMessage();
   };
   handleTitleChange = ({target}) => {
     if(target.value.length < 60) {
@@ -40,12 +44,18 @@ export class EditPostPage extends React.Component {
     }
   };
   handleBodyTextChange = ({target}) => {
-    this.setState(() => ({
-      postBody: target.value
-    }));
-    this.props.configureModal({
-      dataHasChanged: true
-    });
+    if(target.value.length < 1200) {
+      this.setState(() => ({
+        postBody: target.value
+      }));
+      this.props.configureModal({
+        dataHasChanged: true
+      });
+      this.props.clearErrorMessage('textarea-limit');
+    } else {
+      this.props.setErrorMessage('textarea-limit', "Charater limit reached");
+    }
+    textareaCount = target.value.length;
   };
   handleSavepost = () => {
     // trim, validate, escape, then save data
@@ -85,7 +95,7 @@ export class EditPostPage extends React.Component {
   };
   handleDeletePost = () => {   
     this.props.startRemovePost({postId: this.state.postId, authId: this.state.authId }).then(() => {
-      this.props.configureModal();
+      this.props.configureModal(); //Reset to initial values
       // configureModal can take in partial arguments
       // side effect - toggle becomes uncontrolled
       // hack
@@ -97,7 +107,7 @@ export class EditPostPage extends React.Component {
   render() {
     return (
       <React.Fragment>
-        { (!!this.state.authId) ? 
+        { (this.state.authId) ? 
           <div>
             <PostHeader post={ this.props.post } isAuthor={ true } />
             <div className="content-container">
@@ -106,9 +116,10 @@ export class EditPostPage extends React.Component {
                   postBody={ this.state.postBody }
                   handleTitleChange={ this.handleTitleChange }
                   handleBodyTextChange={ this.handleBodyTextChange }
+                  textareaCount={ textareaCount }
               />
             </div>
-            
+
             <div className="content-container">
               <div className="button-group">
                 <Button onClick={ [this.handleSavepost] } className="button">
