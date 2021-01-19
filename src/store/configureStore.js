@@ -6,7 +6,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import authReducer from '../reducers/auth';
 import draftsReducer from '../reducers/drafts'
-import PostsReducer from '../reducers/posts';
+import postsReducer from '../reducers/posts';
 import filtersReducer from '../reducers/filters';
 import modalReducer from '../reducers/modal';
 import errorReducer  from '../reducers/error';
@@ -26,7 +26,7 @@ const persistConfig = {
 export default () => {
   const rootReducer = {
     auth: authReducer,
-    postList: PostsReducer,
+    postList: postsReducer,
     draftList: draftsReducer,
     filters: filtersReducer,
     modal: modalReducer,
