@@ -1,5 +1,7 @@
 #app, .app__container {
+    overflow-x: hidden;
     height: 100vh;
+    margin-bottom: $m-size;
 }
 .app__container {
     overflow-y: auto;
